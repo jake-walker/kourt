@@ -3,6 +3,7 @@
   "strings" : {
     "%lld Items" : {
       "comment" : "Header title for a list that contains the number of items",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -32,6 +33,7 @@
     },
     "Add" : {
       "comment" : "Button in items list that will cause a new item to be added",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -59,8 +61,18 @@
         }
       }
     },
+    "Add Matches" : {
+
+    },
+    "Add Player" : {
+
+    },
+    "Add Session" : {
+
+    },
     "Appearance" : {
       "comment" : "Settings select label for the interface style of the controls (light, dark, or default)",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -90,6 +102,7 @@
     },
     "Cancel" : {
       "comment" : "Button title indicating that the operation should be cancelled",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -117,8 +130,12 @@
         }
       }
     },
+    "Create Session" : {
+
+    },
     "Dark" : {
       "comment" : "Menu item indicating that the appearance should be in dark mode",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -148,6 +165,7 @@
     },
     "Date" : {
       "comment" : "Item editor form label for the Date field",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -175,8 +193,12 @@
         }
       }
     },
+    "Doubles" : {
+
+    },
     "Favorite" : {
       "comment" : "Item editor title label for marking the item as a favorite",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -206,6 +228,7 @@
     },
     "Hello [%@](https://skip.dev)!" : {
       "comment" : "Welcome tab contents",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -235,6 +258,7 @@
     },
     "Home" : {
       "comment" : "Tab bar item title for the Home tab",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -264,6 +288,7 @@
     },
     "Light" : {
       "comment" : "Menu item indicating that the appearance should be in light mode",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -291,8 +316,15 @@
         }
       }
     },
+    "Match %lld" : {
+
+    },
+    "Matches (%lld)" : {
+
+    },
     "Name" : {
       "comment" : "Placeholder title for the Name field in a form",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -320,8 +352,12 @@
         }
       }
     },
+    "No session" : {
+
+    },
     "Notes" : {
       "comment" : "Item editor form label for the Notes field",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -349,8 +385,15 @@
         }
       }
     },
+    "Player Name" : {
+
+    },
+    "Players" : {
+
+    },
     "Powered by [Skip](https://skip.dev)" : {
       "comment" : "Link markdown text for the Powered by… label",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -380,6 +423,7 @@
     },
     "Save" : {
       "comment" : "Button title indicating that the current contents should be saved",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -406,6 +450,12 @@
           }
         }
       }
+    },
+    "Session" : {
+
+    },
+    "Sessions" : {
+
     },
     "Settings" : {
       "comment" : "Tab bar item title for the Settings tab",
@@ -436,8 +486,12 @@
         }
       }
     },
+    "Singles" : {
+
+    },
     "System" : {
       "comment" : "Menu item indicating that the appearance should be in the default system mode",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -465,8 +519,12 @@
         }
       }
     },
+    "Team Size" : {
+
+    },
     "Title" : {
       "comment" : "Label for the item editor form indicating the title of the item",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -531,6 +589,7 @@
     },
     "Welcome" : {
       "comment" : "Tab bar item title for the Welcome tab",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {

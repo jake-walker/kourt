@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft-06/schema#",
+  "title": "Generator Output",
+  "type": "array",
+  "items": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "required": [
+        "teamA",
+        "teamB",
+        "court"
+      ],
+      "properties": {
+        "teamA": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "teamB": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "court": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

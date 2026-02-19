@@ -1,0 +1,15 @@
+{
+  "tasks": {
+    "bundle": "deno bundle --check --format cjs --frozen --packages bundle --platform browser -o ../Sources/Kourt/Resources/gen-bundle.js main.ts"
+  },
+  "lint": {
+    "exclude": [
+      "*.g.ts"
+    ]
+  },
+  "fmt": {
+    "exclude": [
+      "*.g.ts"
+    ]
+  }
+}
