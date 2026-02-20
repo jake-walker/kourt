@@ -12,12 +12,12 @@ let package = Package(
     dependencies: [
         .package(url: "https://source.skip.tools/skip.git", from: "1.7.2"),
         .package(url: "https://source.skip.tools/skip-fuse-ui.git", from: "1.0.0"),
-        .package(url: "https://github.com/skiptools/skip-script.git", revision: "555dddb350b0883207f49c4798b2e1a2a4521f50")
+        .package(url: "https://github.com/apple/swift-algorithms", from: "1.2.0")
     ],
     targets: [
         .target(name: "Kourt", dependencies: [
             .product(name: "SkipFuseUI", package: "skip-fuse-ui"),
-            .product(name: "SkipScript", package: "skip-script")
+            .product(name: "Algorithms", package: "swift-algorithms")
         ], resources: [.process("Resources")], plugins: [.plugin(name: "skipstone", package: "skip")]),
     ]
 )

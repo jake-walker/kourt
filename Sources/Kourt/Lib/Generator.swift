@@ -6,44 +6,113 @@
 //
 
 import Foundation
+import Algorithms
 
-#if !os(Android)
-import SkipScript
-
-enum GeneratorError: Error {
-    case jsContextFailed
-    case jsLoadError
-    case conversionFailed
-    case failed(String?)
-}
-
-func generateMatchesJs(count: Int, players: [UUID], courtCount: Int = 1, teamSize: Int = 1) throws -> [[Match]] {
-    let ctx = JSContext()
-    
-    guard let bundlePath = Bundle.module.path(forResource: "gen-bundle", ofType: "js"),
-          let bundleContent = try? String(contentsOfFile: bundlePath, encoding: .utf8)
-    else {
-        throw GeneratorError.jsLoadError
+extension Session {
+    var playerCounter: [UUID: Int] {
+        let initialCounter = self.players.reduce(into: [UUID: Int]()) { counter, player in
+            counter[player.id] = 0
+        }
+        
+        return self.matches.reduce(into: initialCounter) { counter, match in
+            for player in match.teamA.union(match.teamB) {
+                counter[player, default: 0] += 1
+            }
+        }
     }
     
-    let _ = ctx.evaluateScript(bundleContent)
-    let funcRef = ctx.objectForKeyedSubscript("generateMatches")
-    
-    guard let inputJson = try InputSchema(count: count, courtCount: courtCount, players: players.map(\.uuidString), teamSize: teamSize).jsonString()
-    else {
-        throw GeneratorError.conversionFailed
+    var playerComboCounter: [Set<UUID>: Int] {
+        let initialCombos = self.players.map(\.id).combinations(ofCount: self.teamSize)
+            .reduce(into: [Set<UUID>: Int]()) { counter, combo in
+                counter[Set(combo)] = 0
+            }
+        
+        return self.matches.reduce(into: initialCombos) { counter, match in
+            counter[Set(match.teamA), default: 0] += 1
+            counter[Set(match.teamB), default: 0] += 1
+        }
     }
     
-    let resultJson = try funcRef.call(withArguments: [
-        JSValue(string: inputJson, in: ctx)
-    ])
+    fileprivate func getNextPlayer(excluding: Set<UUID> = []) -> UUID? {
+        let candidates = self.playerCounter
+            .filter { !excluding.contains($0.key) }
+        
+        let sorted = candidates.sorted { $0.value < $1.value }
+            .map { $0.key }
+        
+        return sorted.first
+    }
     
-    let result = try OutputSchema(resultJson.toString())
+    fileprivate func getComboWeight(for combo: Set<UUID>) -> Int {
+        var weight = 0
+        
+        weight += self.playerComboCounter[combo, default: 0]
+        weight += combo.map { self.playerCounter[$0, default: 0] }
+            .reduce(0, +)
+        
+        return weight
+    }
     
-    return result.map { $0.map { Match(court: $0.court, teamA: $0.teamA.map { UUID(uuidString: $0)! }, teamB: $0.teamB.map { UUID(uuidString: $0)! }) } }
+    fileprivate func getNextCombo(for player: UUID, excluding: Set<UUID> = []) -> UUID? {
+        var candidates = self.playerComboCounter
+            .filter { $0.key.isDisjoint(with: excluding) }
+        
+        for key in candidates.keys {
+            candidates[key] = self.getComboWeight(for: key)
+        }
+        
+        candidates = candidates.filter { $0.key.contains(player) }
+        
+        let sorted = candidates.sorted { $0.value < $1.value }
+        
+        return sorted.first?.key.filter { $0 != player }.first
+    }
+    
+    fileprivate func getNextTeam(excluding: Set<UUID> = []) -> Set<UUID>? {
+        guard let player1 = self.getNextPlayer(excluding: excluding),
+              let player2 = self.getNextCombo(for: player1, excluding: excluding) else {
+            return nil
+        }
+        
+        return Set([player1, player2])
+    }
+    
+    fileprivate func getNextDoublesMatch(court: Int, excluding: Set<UUID> = []) -> Match? {
+        guard let teamA = self.getNextTeam(excluding: excluding),
+              let teamB = self.getNextTeam(excluding: excluding.union(teamA)) else {
+            return nil
+        }
+        
+        if !teamA.isDisjoint(with: teamB) {
+            print("Generate fail: player is in both teams (teamA=\(teamA), teamB=\(teamB))")
+            return nil
+        }
+        
+        return Match(court: court, teamA: teamA, teamB: teamB)
+    }
+    
+    fileprivate func getNextSinglesMatch(court: Int, excluding: Set<UUID> = []) -> Match? {
+        guard let players = self.getNextTeam(excluding: excluding) else {
+            return nil
+        }
+        
+        let playersArray = Array(players)
+        
+        return Match(court: court, teamA: Set(arrayLiteral: playersArray[0]), teamB: Set(arrayLiteral: playersArray[1]))
+    }
+    
+    func nextMatches() -> [Match] {
+        var matches: [Match] = []
+        var usedPlayers: Set<UUID> = []
+        
+        for i in 0..<self.courts {
+            if let match = self.teamSize == 1 ? self.getNextSinglesMatch(court: i, excluding: usedPlayers) : self.getNextDoublesMatch(court: i, excluding: usedPlayers) {
+                usedPlayers.formUnion(match.teamA)
+                usedPlayers.formUnion(match.teamB)
+                matches.append(match)
+            }
+        }
+        
+        return matches
+    }
 }
-#else
-func generateMatchesJs(count: Int, players: [UUID], courtCount: Int = 1, teamSize: Int = 1) throws -> [[Match]] {
-    return []
-}
-#endif

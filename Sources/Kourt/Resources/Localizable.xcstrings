@@ -1,6 +1,25 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@ Session" : {
+
+    },
+    "%@ with %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ with %2$@"
+          }
+        }
+      }
+    },
+    "%@ with no players" : {
+
+    },
+    "%lld" : {
+
+    },
     "%lld Items" : {
       "comment" : "Header title for a list that contains the number of items",
       "extractionState" : "stale",
@@ -61,9 +80,6 @@
         }
       }
     },
-    "Add Matches" : {
-
-    },
     "Add Player" : {
 
     },
@@ -100,6 +116,9 @@
         }
       }
     },
+    "At least %@ are needed for this session." : {
+
+    },
     "Cancel" : {
       "comment" : "Button title indicating that the operation should be cancelled",
       "extractionState" : "stale",
@@ -129,6 +148,18 @@
           }
         }
       }
+    },
+    "Close" : {
+
+    },
+    "Court %lld" : {
+
+    },
+    "Court %lld:" : {
+
+    },
+    "Courts" : {
+
     },
     "Create Session" : {
 
@@ -192,6 +223,9 @@
           }
         }
       }
+    },
+    "Details" : {
+
     },
     "Doubles" : {
 
@@ -319,7 +353,7 @@
     "Match %lld" : {
 
     },
-    "Matches (%lld)" : {
+    "Matches" : {
 
     },
     "Name" : {
@@ -351,6 +385,12 @@
           }
         }
       }
+    },
+    "New Session" : {
+
+    },
+    "Next" : {
+
     },
     "No session" : {
 
@@ -385,7 +425,7 @@
         }
       }
     },
-    "Player Name" : {
+    "Player %lld Name" : {
 
     },
     "Players" : {
@@ -450,9 +490,6 @@
           }
         }
       }
-    },
-    "Session" : {
-
     },
     "Sessions" : {
 
@@ -586,6 +623,9 @@
           }
         }
       }
+    },
+    "vs." : {
+
     },
     "Welcome" : {
       "comment" : "Tab bar item title for the Welcome tab",

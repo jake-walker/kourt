@@ -19,23 +19,16 @@ struct ContentView: View {
     var body: some View {
         NavigationStack(path: $viewModel.navigationPath) {
             SessionListView()
-                .navigationTitle("Sessions")
                 .toolbar {
-                    ToolbarItem(placement: .primaryAction) {
-                        Button("Add Session", systemImage: "plus") {
-                            viewModel.navigationPath.append(AppDestination.newSession)
-                        }
-                    }
-                    
                     ToolbarItem(placement: .secondaryAction) {
-                        Button("Settings", systemImage: "gear") {
+                        Button("Settings", systemImage: "gearshape") {
                             viewModel.navigationPath.append(AppDestination.settings)
                         }
                     }
                 }
                 .navigationDestination(for: AppDestination.self) { destination in
                     switch destination {
-                    case .session(let _id):
+                    case .session(_):
                         SessionView()
                     case .newSession:
                         CreateSessionView()

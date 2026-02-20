@@ -15,11 +15,14 @@ struct SettingsView : View {
                 Text("Version \(version) (\(buildNumber))")
             }
         }
+        .navigationTitle("Settings")
     }
 }
 
 #if !os(Android)
 #Preview {
-    SettingsView()
+    NavigationView {
+        SettingsView()
+    }
 }
 #endif
