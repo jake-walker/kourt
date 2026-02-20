@@ -1,0 +1,118 @@
+{
+  "fill": {
+    "solid": "display-p3:0.93282,0.94834,0.99550,1.00000"
+  },
+  "groups": [
+    {
+      "blur-material": 0.5,
+      "layers": [
+        {
+          "image-name": "Ellipse 7.svg",
+          "name": "PlayerA",
+          "position": {
+            "scale": 1,
+            "translation-in-points": [45.38671875, 190.8984375]
+          }
+        },
+        {
+          "image-name": "Ellipse 6.svg",
+          "name": "PlayerB",
+          "position": {
+            "scale": 1,
+            "translation-in-points": [-44.390625, -191.3125]
+          }
+        },
+        {
+          "image-name": "Line 4.svg",
+          "name": "PlayerLine"
+        }
+      ],
+      "lighting": "combined",
+      "shadow-specializations": [
+        {
+          "value": {
+            "kind": "layer-color",
+            "opacity": 0.5
+          }
+        },
+        {
+          "appearance": "tinted",
+          "value": {
+            "kind": "layer-color",
+            "opacity": 0.6
+          }
+        }
+      ],
+      "specular": true,
+      "translucency": {
+        "enabled": true,
+        "value": 0.4
+      }
+    },
+    {
+      "blur-material": 0.5,
+      "layers": [
+        {
+          "image-name": "Line 2 2.svg",
+          "name": "HorizontalLine"
+        },
+        {
+          "image-name": "Line 3(1).svg",
+          "name": "VerticalLine",
+          "position": {
+            "scale": 1,
+            "translation-in-points": [0, 0]
+          }
+        },
+        {
+          "image-name": "Rectangle 5341 2.svg",
+          "name": "Rectangle"
+        }
+      ],
+      "lighting": "combined",
+      "shadow-specializations": [
+        {
+          "value": {
+            "kind": "layer-color",
+            "opacity": 0.8
+          }
+        },
+        {
+          "appearance": "dark",
+          "value": {
+            "kind": "layer-color",
+            "opacity": 0.45
+          }
+        }
+      ],
+      "specular-specializations": [
+        {
+          "value": true
+        },
+        {
+          "appearance": "dark",
+          "value": true
+        }
+      ],
+      "translucency-specializations": [
+        {
+          "value": {
+            "enabled": true,
+            "value": 0.2
+          }
+        },
+        {
+          "appearance": "tinted",
+          "value": {
+            "enabled": true,
+            "value": 0.6
+          }
+        }
+      ]
+    }
+  ],
+  "supported-platforms": {
+    "circles": ["watchOS"],
+    "squares": "shared"
+  }
+}

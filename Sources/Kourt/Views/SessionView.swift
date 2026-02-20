@@ -31,7 +31,7 @@ struct CurrentMatch: View {
     var nextButton: some View {
         Button(action: nextMatch) {
             Label("Next", systemImage: "arrow.forward")
-                .foregroundStyle(.primary)
+                .foregroundStyle(.foreground)
                 .frame(maxWidth: .infinity)
                 .padding(8)
         }

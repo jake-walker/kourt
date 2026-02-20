@@ -11,6 +11,7 @@
 		42FBE3C22F48DC1800872AF9 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42FBE3C12F48DC1800872AF9 /* SwiftUI.framework */; };
 		42FBE3CF2F48DC1900872AF9 /* KourtWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 42FBE3BD2F48DC1800872AF9 /* KourtWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		42FBE3E52F48F38D00872AF9 /* KourtShared in Frameworks */ = {isa = PBXBuildFile; productRef = 42FBE3E42F48F38D00872AF9 /* KourtShared */; };
+		42FBE48D2F48FDEB00872AF9 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 42FBE48C2F48FDEB00872AF9 /* AppIcon.icon */; };
 		491F27822DA55B72004926EE /* Kourt in Frameworks */ = {isa = PBXBuildFile; productRef = 491F27812DA55B72004926EE /* Kourt */; };
 		491F27832DA55B72004926EE /* Kourt in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 491F27812DA55B72004926EE /* Kourt */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		496BDBEE2B8A7E9C00C09264 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 496BDBED2B8A7E9C00C09264 /* Localizable.xcstrings */; };
@@ -57,6 +58,7 @@
 		42FBE3BD2F48DC1800872AF9 /* KourtWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = KourtWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		42FBE3BF2F48DC1800872AF9 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		42FBE3C12F48DC1800872AF9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		42FBE48C2F48FDEB00872AF9 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		4900101C2BACEA710000DE33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		493609562A6B7EAE00C401E2 /* Kourt */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Kourt; path = ..; sourceTree = "<group>"; };
 		496BDBEB2B89A47800C09264 /* Kourt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kourt.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -155,6 +157,7 @@
 				49F90C2F2A52156300F06D93 /* Assets.xcassets */,
 				49F90C312A52156300F06D93 /* Entitlements.plist */,
 				4900101C2BACEA710000DE33 /* Info.plist */,
+				42FBE48C2F48FDEB00872AF9 /* AppIcon.icon */,
 			);
 			name = App;
 			sourceTree = "<group>";
@@ -262,6 +265,7 @@
 			files = (
 				499CD4402AC5B799001AE8D8 /* Assets.xcassets in Resources */,
 				496BDBEE2B8A7E9C00C09264 /* Localizable.xcstrings in Resources */,
+				42FBE48D2F48FDEB00872AF9 /* AppIcon.icon in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,6 +469,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 496EB72F2A6AE4DE00C1253B /* Kourt.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				DEVELOPMENT_TEAM = N93X7GBDAQ;
 				ENABLE_PREVIEWS = YES;
@@ -478,6 +484,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 496EB72F2A6AE4DE00C1253B /* Kourt.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				DEVELOPMENT_TEAM = N93X7GBDAQ;
 				ENABLE_PREVIEWS = YES;
