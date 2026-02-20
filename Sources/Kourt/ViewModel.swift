@@ -74,6 +74,14 @@ struct Session : Identifiable, Hashable, Codable {
         return matchGroups[currentIndex]
     }
     
+    var nextMatches: [Match] {
+        guard currentIndex + 1 < matchGroups.count else {
+            return self.generateNext()
+        }
+        
+        return matchGroups[currentIndex + 1]
+    }
+    
     var playerSummary: String {
         return prettyJoinStrings(self.players.map(\.name))
     }

@@ -3,10 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		42FBE3C02F48DC1800872AF9 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42FBE3BF2F48DC1800872AF9 /* WidgetKit.framework */; };
+		42FBE3C22F48DC1800872AF9 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42FBE3C12F48DC1800872AF9 /* SwiftUI.framework */; };
+		42FBE3CF2F48DC1900872AF9 /* KourtWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 42FBE3BD2F48DC1800872AF9 /* KourtWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		42FBE3E52F48F38D00872AF9 /* KourtShared in Frameworks */ = {isa = PBXBuildFile; productRef = 42FBE3E42F48F38D00872AF9 /* KourtShared */; };
 		491F27822DA55B72004926EE /* Kourt in Frameworks */ = {isa = PBXBuildFile; productRef = 491F27812DA55B72004926EE /* Kourt */; };
 		491F27832DA55B72004926EE /* Kourt in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 491F27812DA55B72004926EE /* Kourt */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		496BDBEE2B8A7E9C00C09264 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 496BDBED2B8A7E9C00C09264 /* Localizable.xcstrings */; };
@@ -14,7 +18,28 @@
 		499CD4402AC5B799001AE8D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49F90C2F2A52156300F06D93 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		42FBE3CD2F48DC1900872AF9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49F90C202A52156200F06D93 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 42FBE3BC2F48DC1800872AF9;
+			remoteInfo = KourtWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		42FBE3D02F48DC1900872AF9 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				42FBE3CF2F48DC1900872AF9 /* KourtWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		499CD44A2AC5B9C6001AE8D8 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -29,6 +54,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		42FBE3BD2F48DC1800872AF9 /* KourtWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = KourtWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		42FBE3BF2F48DC1800872AF9 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		42FBE3C12F48DC1800872AF9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		4900101C2BACEA710000DE33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		493609562A6B7EAE00C401E2 /* Kourt */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Kourt; path = ..; sourceTree = "<group>"; };
 		496BDBEB2B89A47800C09264 /* Kourt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kourt.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -42,7 +70,31 @@
 		49F90C312A52156300F06D93 /* Entitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Entitlements.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		42FBE3D32F48DC1900872AF9 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 42FBE3BC2F48DC1800872AF9 /* KourtWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		42FBE3C32F48DC1800872AF9 /* KourtWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (42FBE3D32F48DC1900872AF9 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = KourtWidget; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		42FBE3BA2F48DC1800872AF9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				42FBE3C22F48DC1800872AF9 /* SwiftUI.framework in Frameworks */,
+				42FBE3C02F48DC1800872AF9 /* WidgetKit.framework in Frameworks */,
+				42FBE3E52F48F38D00872AF9 /* KourtShared in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		499CD43C2AC5B799001AE8D8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -54,10 +106,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		42FBE3BE2F48DC1800872AF9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				42FBE3BF2F48DC1800872AF9 /* WidgetKit.framework */,
+				42FBE3C12F48DC1800872AF9 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		496BDBEC2B89A47800C09264 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				496BDBEB2B89A47800C09264 /* Kourt.app */,
+				42FBE3BD2F48DC1800872AF9 /* KourtWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -80,6 +142,8 @@
 				493609562A6B7EAE00C401E2 /* Kourt */,
 				49F90C2A2A52156200F06D93 /* App */,
 				49AB54462B066A7E007B79B2 /* SkipStone */,
+				42FBE3C32F48DC1800872AF9 /* KourtWidget */,
+				42FBE3BE2F48DC1800872AF9 /* Frameworks */,
 				496BDBEC2B89A47800C09264 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -98,6 +162,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		42FBE3BC2F48DC1800872AF9 /* KourtWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 42FBE3D42F48DC1900872AF9 /* Build configuration list for PBXNativeTarget "KourtWidgetExtension" */;
+			buildPhases = (
+				42FBE3B92F48DC1800872AF9 /* Sources */,
+				42FBE3BA2F48DC1800872AF9 /* Frameworks */,
+				42FBE3BB2F48DC1800872AF9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				42FBE3C32F48DC1800872AF9 /* KourtWidget */,
+			);
+			name = KourtWidgetExtension;
+			packageProductDependencies = (
+				42FBE3E42F48F38D00872AF9 /* KourtShared */,
+			);
+			productName = KourtWidgetExtension;
+			productReference = 42FBE3BD2F48DC1800872AF9 /* KourtWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		499CD4382AC5B799001AE8D8 /* Kourt App */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 499CD4412AC5B799001AE8D8 /* Build configuration list for PBXNativeTarget "Kourt App" */;
@@ -107,10 +194,12 @@
 				499CD43E2AC5B799001AE8D8 /* Resources */,
 				499CD4452AC5B869001AE8D8 /* Run skip gradle */,
 				499CD44A2AC5B9C6001AE8D8 /* Embed Frameworks */,
+				42FBE3D02F48DC1900872AF9 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				42FBE3CE2F48DC1900872AF9 /* PBXTargetDependency */,
 			);
 			name = "Kourt App";
 			packageProductDependencies = (
@@ -127,8 +216,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1430;
+				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 1630;
+				TargetAttributes = {
+					42FBE3BC2F48DC1800872AF9 = {
+						CreatedOnToolsVersion = 26.0;
+					};
+				};
 			};
 			buildConfigurationList = 49F90C232A52156200F06D93 /* Build configuration list for PBXProject "Kourt" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -149,11 +243,19 @@
 			projectRoot = "";
 			targets = (
 				499CD4382AC5B799001AE8D8 /* Kourt App */,
+				42FBE3BC2F48DC1800872AF9 /* KourtWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		42FBE3BB2F48DC1800872AF9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		499CD43E2AC5B799001AE8D8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -188,6 +290,13 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		42FBE3B92F48DC1800872AF9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		499CD43A2AC5B799001AE8D8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -198,7 +307,160 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		42FBE3CE2F48DC1900872AF9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 42FBE3BC2F48DC1800872AF9 /* KourtWidgetExtension */;
+			targetProxy = 42FBE3CD2F48DC1900872AF9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		42FBE3D12F48DC1900872AF9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N93X7GBDAQ;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KourtWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = KourtWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.jakewalker.kourt.KourtWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		42FBE3D22F48DC1900872AF9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N93X7GBDAQ;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KourtWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = KourtWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.jakewalker.kourt.KourtWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		499CD4422AC5B799001AE8D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 496EB72F2A6AE4DE00C1253B /* Kourt.xcconfig */;
@@ -206,6 +468,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				DEVELOPMENT_TEAM = N93X7GBDAQ;
 				ENABLE_PREVIEWS = YES;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 			};
@@ -218,6 +481,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				DEVELOPMENT_TEAM = N93X7GBDAQ;
 				ENABLE_PREVIEWS = YES;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 			};
@@ -262,6 +526,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		42FBE3D42F48DC1900872AF9 /* Build configuration list for PBXNativeTarget "KourtWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				42FBE3D12F48DC1900872AF9 /* Debug */,
+				42FBE3D22F48DC1900872AF9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		499CD4412AC5B799001AE8D8 /* Build configuration list for PBXNativeTarget "Kourt App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -283,6 +556,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		42FBE3E42F48F38D00872AF9 /* KourtShared */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = KourtShared;
+		};
 		491F27812DA55B72004926EE /* Kourt */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Kourt;

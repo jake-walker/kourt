@@ -69,15 +69,15 @@ struct SessionListView : View {
 #endif
         }
         .navigationTitle("Sessions")
-        .toolbar {
 #if !os(Android)
+        .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button("Add Session", systemImage: "plus") {
                     isAdding = true
                 }
             }
-#endif
         }
+#endif
         .sheet(isPresented: $isAdding) {
 #if !os(Android)
             NavigationView {

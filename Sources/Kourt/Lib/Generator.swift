@@ -101,7 +101,7 @@ extension Session {
         return Match(court: court, teamA: Set(arrayLiteral: playersArray[0]), teamB: Set(arrayLiteral: playersArray[1]))
     }
     
-    func nextMatches() -> [Match] {
+    func generateNext() -> [Match] {
         var matches: [Match] = []
         var usedPlayers: Set<UUID> = []
         

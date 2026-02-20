@@ -20,7 +20,7 @@ struct CurrentMatch: View {
             return
         }
         
-        guard let nextMatches = viewModel.currentSession?.nextMatches() else {
+        guard let nextMatches = viewModel.currentSession?.generateNext() else {
             return
         }
         
@@ -186,13 +186,41 @@ struct SessionView : View {
             .navigationTitle("\(session.typeSummary) Session")
             .onAppear {
                 if session.matchGroups.isEmpty {
-                    guard let nextMatches = viewModel.currentSession?.nextMatches() else {
+                    guard let nextMatches = viewModel.currentSession?.generateNext() else {
                         return
                     }
                     
                     viewModel.currentSession?.matchGroups.append(nextMatches)
                 }
+                
+                #if !os(Android)
+                Task {
+                    do {
+                        try await LiveActivityManager.shared.startOrUpdate(session)
+                    } catch {
+                        logger.warning("Failed to update live activity: \(error.localizedDescription)")
+                    }
+                }
+                #endif
             }
+#if !os(Android)
+            .onChange(of: viewModel.currentSession) { _, session in
+                guard let session else { return }
+                
+                Task {
+                    do {
+                        try await LiveActivityManager.shared.startOrUpdate(session)
+                    } catch {
+                        logger.warning("Failed to update live activity: \(error.localizedDescription)")
+                    }
+                }
+            }
+            .onDisappear {
+                Task {
+                    await LiveActivityManager.shared.endAllActivities()
+                }
+            }
+#endif
         } else {
             Text("No session")
         }
