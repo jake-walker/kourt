@@ -28,7 +28,7 @@ struct ContentView: View {
                 }
                 .navigationDestination(for: AppDestination.self) { destination in
                     switch destination {
-                    case .session(_):
+                    case .session:
                         SessionView()
                     case .newSession:
                         CreateSessionView()
@@ -42,7 +42,7 @@ struct ContentView: View {
 }
 
 #if !os(Android)
-#Preview {
-    ContentView()
-}
+    #Preview {
+        ContentView()
+    }
 #endif

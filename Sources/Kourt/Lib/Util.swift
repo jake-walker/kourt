@@ -21,5 +21,5 @@ func prettyJoinStrings(_ strings: [String]) -> String {
 }
 
 func inflect(_ count: Int, singular: String, plural: String) -> String {
-    return count == 1 ? "\(count) \(singular)" : "\(count) \(plural)"
+    count == 1 ? "\(count) \(singular)" : "\(count) \(plural)"
 }

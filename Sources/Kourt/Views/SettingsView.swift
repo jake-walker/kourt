@@ -7,11 +7,12 @@
 
 import SwiftUI
 
-struct SettingsView : View {
+struct SettingsView: View {
     var body: some View {
         List {
             if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
-               let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
+               let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+            {
                 Text("Version \(version) (\(buildNumber))")
             }
         }
@@ -20,9 +21,9 @@ struct SettingsView : View {
 }
 
 #if !os(Android)
-#Preview {
-    NavigationView {
-        SettingsView()
+    #Preview {
+        NavigationView {
+            SettingsView()
+        }
     }
-}
 #endif

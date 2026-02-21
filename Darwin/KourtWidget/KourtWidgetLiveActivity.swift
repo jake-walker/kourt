@@ -6,13 +6,13 @@
 //
 
 import ActivityKit
-import WidgetKit
-import SwiftUI
 import KourtShared
+import SwiftUI
+import WidgetKit
 
 struct MatchView: View {
     let match: ActivityMatchItem
-    
+
     private func teamStack(_ team: [String]) -> some View {
         VStack {
             ForEach(team, id: \.self) { name in
@@ -23,17 +23,17 @@ struct MatchView: View {
             }
         }
     }
-    
+
     var body: some View {
         HStack {
             teamStack(match.teamA)
                 .frame(maxWidth: .infinity)
-            
+
             Text("vs.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
-            
+
             teamStack(match.teamB)
                 .frame(maxWidth: .infinity)
         }
@@ -43,7 +43,7 @@ struct MatchView: View {
 
 struct NextUpView: View {
     let match: ActivityMatchItem
-    
+
     var body: some View {
         Text("**Next Up:** \(match.teamA.joined(separator: " & ")) vs. \(match.teamB.joined(separator: " & "))")
             .lineLimit(2)
@@ -57,15 +57,16 @@ struct MatchHeading: View {
     let groupIndex: Int
     let courtIndex: Int?
     let showCourt: Bool
-    
+
     var body: some View {
         HStack {
             Text("Match \(groupIndex + 1)")
-            
+
             Spacer()
-            
+
             if showCourt,
-               let courtIndex {
+               let courtIndex
+            {
                 Text("Court \(courtIndex + 1)")
             }
         }
@@ -76,11 +77,11 @@ struct MatchHeading: View {
 struct MainActivityView: View {
     let context: ActivityViewContext<KourtWidgetAttributes>
     @Environment(\.activityFamily) var family
-    
+
     private var mediumFamily: some View {
         VStack(alignment: .leading, spacing: 8) {
             MatchHeading(groupIndex: context.state.groupIndex, courtIndex: context.state.currentPreferredItem?.court, showCourt: context.state.currentMatchGroup.count > 1)
-            
+
             if let current = context.state.currentPreferredItem {
                 MatchView(match: current)
             } else {
@@ -91,17 +92,17 @@ struct MainActivityView: View {
                     .frame(maxWidth: .infinity)
                     .padding([.leading, .trailing], 32)
             }
-            
+
             if let nextUp = context.state.nextPreferredItem {
                 NextUpView(match: nextUp)
             }
         }
     }
-    
+
     private var smallFamily: some View {
         VStack(alignment: .leading, spacing: 8) {
             MatchHeading(groupIndex: context.state.groupIndex, courtIndex: context.state.currentPreferredItem?.court, showCourt: context.state.currentMatchGroup.count > 1)
-            
+
             if let current = context.state.currentPreferredItem {
                 MatchView(match: current)
             } else {
@@ -112,7 +113,7 @@ struct MainActivityView: View {
             }
         }
     }
-    
+
     var body: some View {
         switch family {
         case .small:
@@ -146,7 +147,8 @@ struct KourtWidgetLiveActivity: Widget {
                 }
                 DynamicIslandExpandedRegion(.trailing) {
                     if context.state.currentMatchGroup.count > 1,
-                       let court = context.state.currentPreferredItem?.court {
+                       let court = context.state.currentPreferredItem?.court
+                    {
                         Text("Court \(court + 1)")
                             .font(.subheadline)
                             .padding(.trailing, 8)
@@ -166,7 +168,7 @@ struct KourtWidgetLiveActivity: Widget {
                                 .frame(maxWidth: .infinity)
                                 .padding([.leading, .trailing], 32)
                         }
-                        
+
                         if let nextUp = context.state.nextPreferredItem {
                             NextUpView(match: nextUp)
                         }
@@ -189,55 +191,55 @@ struct KourtWidgetLiveActivity: Widget {
     }
 }
 
-extension KourtWidgetAttributes {
-    fileprivate static var preview: KourtWidgetAttributes {
+private extension KourtWidgetAttributes {
+    static var preview: KourtWidgetAttributes {
         KourtWidgetAttributes(sessionId: .init(), sessionDate: .now)
     }
 }
 
-extension KourtWidgetAttributes.ContentState {
-    fileprivate static var main: KourtWidgetAttributes.ContentState {
+private extension KourtWidgetAttributes.ContentState {
+    static var main: KourtWidgetAttributes.ContentState {
         KourtWidgetAttributes.ContentState(
             groupIndex: 5,
             preferredCourt: 0,
             nextPreferredCourt: 0,
             currentMatchGroup: [
                 .init(id: .init(), court: 0, teamA: ["Giles", "Doug"], teamB: ["Abraham", "Albert"]),
-                .init(id: .init(), court: 1, teamA: ["Eric", "Desmond"], teamB: ["Benjamin", "Richard"])
+                .init(id: .init(), court: 1, teamA: ["Eric", "Desmond"], teamB: ["Benjamin", "Richard"]),
             ],
             nextMatchGroup: [
-                .init(id: .init(), court: 0, teamA: ["Eleanor", "Nathaneal"], teamB: ["Ursula", "Russell"])
-            ]
+                .init(id: .init(), court: 0, teamA: ["Eleanor", "Nathaneal"], teamB: ["Ursula", "Russell"]),
+            ],
         )
     }
-    
-    fileprivate static var singleCourt: KourtWidgetAttributes.ContentState {
+
+    static var singleCourt: KourtWidgetAttributes.ContentState {
         KourtWidgetAttributes.ContentState(
             groupIndex: 5,
             preferredCourt: 0,
             nextPreferredCourt: 0,
             currentMatchGroup: [
-                .init(id: .init(), court: 0, teamA: ["Giles", "Doug"], teamB: ["Abraham", "Albert"])
+                .init(id: .init(), court: 0, teamA: ["Giles", "Doug"], teamB: ["Abraham", "Albert"]),
             ],
             nextMatchGroup: [
-                .init(id: .init(), court: 0, teamA: ["Eleanor"], teamB: ["Ursula"])
-            ]
+                .init(id: .init(), court: 0, teamA: ["Eleanor"], teamB: ["Ursula"]),
+            ],
         )
     }
-    
-    fileprivate static var empty: KourtWidgetAttributes.ContentState {
+
+    static var empty: KourtWidgetAttributes.ContentState {
         KourtWidgetAttributes.ContentState(
             groupIndex: 0,
             preferredCourt: 0,
             nextPreferredCourt: 0,
             currentMatchGroup: [],
-            nextMatchGroup: []
+            nextMatchGroup: [],
         )
     }
 }
 
 #Preview("Notification", as: .content, using: KourtWidgetAttributes.preview) {
-   KourtWidgetLiveActivity()
+    KourtWidgetLiveActivity()
 } contentStates: {
     KourtWidgetAttributes.ContentState.main
     KourtWidgetAttributes.ContentState.singleCourt

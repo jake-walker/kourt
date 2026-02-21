@@ -9,25 +9,25 @@ import SwiftUI
 
 struct CurrentMatch: View {
     @Environment(ViewModel.self) var viewModel: ViewModel
-    
+
     private func nextMatch() {
         guard let currentSession = viewModel.currentSession else {
             return
         }
-        
+
         if currentSession.currentIndex < currentSession.matchGroups.count - 1 {
             viewModel.currentSession?.currentIndex += 1
             return
         }
-        
+
         guard let nextMatches = viewModel.currentSession?.generateNext() else {
             return
         }
-        
+
         viewModel.currentSession?.matchGroups.append(nextMatches)
         viewModel.currentSession?.currentIndex += 1
     }
-    
+
     var nextButton: some View {
         Button(action: nextMatch) {
             Label("Next", systemImage: "arrow.forward")
@@ -36,22 +36,23 @@ struct CurrentMatch: View {
                 .padding(8)
         }
     }
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             if let session = viewModel.currentSession,
-               let currentGroup = session.currentMatches {
+               let currentGroup = session.currentMatches
+            {
                 ForEach(Array(currentGroup.enumerated()), id: \.element.id) { index, match in
                     if index > 0 {
                         Divider()
                             .padding([.top, .bottom], 8)
                     }
-                    
+
                     if session.courts > 1 {
-                        Text("Court \(match.court+1):")
+                        Text("Court \(match.court + 1):")
                             .font(.headline)
                     }
-                    
+
                     HStack {
                         VStack(spacing: 8) {
                             ForEach(match.teamAPlayers(from: session.players), id: \.id) { player in
@@ -61,10 +62,10 @@ struct CurrentMatch: View {
                         }
                         .padding()
                         .frame(maxWidth: .infinity)
-                        
+
                         Text("vs.")
                             .padding()
-                        
+
                         VStack(spacing: 8) {
                             ForEach(match.teamBPlayers(from: session.players), id: \.id) { player in
                                 Text(player.name)
@@ -77,40 +78,40 @@ struct CurrentMatch: View {
                     .frame(maxWidth: .infinity)
                 }
             }
-            
+
             #if !os(Android)
-            if #available(iOS 26.0, *) {
-                nextButton
-                    .buttonStyle(.glassProminent)
-                    .frame(maxWidth: .infinity)
-            } else {
+                if #available(iOS 26.0, *) {
+                    nextButton
+                        .buttonStyle(.glassProminent)
+                        .frame(maxWidth: .infinity)
+                } else {
+                    nextButton
+                        .buttonStyle(.borderedProminent)
+                        .frame(maxWidth: .infinity)
+                }
+            #else
                 nextButton
                     .buttonStyle(.borderedProminent)
                     .frame(maxWidth: .infinity)
-            }
-            #else
-            nextButton
-                .buttonStyle(.borderedProminent)
-                .frame(maxWidth: .infinity)
             #endif
         }
     }
 }
 
-struct MatchItem : View {
+struct MatchItem: View {
     let sessionPlayers: [Player]
     let match: Match
     let index: Int
     let showCourt: Bool
     let isCurrent: Bool
-    
+
     private var title: String {
         let teamA = match.teamAPlayers(from: sessionPlayers).map(\.name)
         let teamB = match.teamBPlayers(from: sessionPlayers).map(\.name)
-        
+
         return "\(teamA.joined(separator: " and ")) vs. \(teamB.joined(separator: " and "))"
     }
-    
+
     var body: some View {
         HStack {
             if isCurrent {
@@ -126,12 +127,12 @@ struct MatchItem : View {
                     .frame(width: 18, height: 18)
                     .padding(.trailing, 4)
             }
-            
+
             VStack(alignment: .leading) {
                 Text(title)
                 HStack {
-                    Text("Match \(index+1)")
-                    
+                    Text("Match \(index + 1)")
+
                     if showCourt {
                         Text("Court \(match.court + 1)")
                     }
@@ -143,9 +144,9 @@ struct MatchItem : View {
     }
 }
 
-struct SessionView : View {
+struct SessionView: View {
     @Environment(ViewModel.self) var viewModel: ViewModel
-    
+
     var body: some View {
         if let session = viewModel.currentSession {
             List {
@@ -163,7 +164,7 @@ struct SessionView : View {
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                    
+
                 if !session.matches.isEmpty {
                     Section("Matches") {
                         ForEach(session.matchGroups.indices, id: \.self) { groupIdx in
@@ -173,7 +174,7 @@ struct SessionView : View {
                                     match: match,
                                     index: groupIdx,
                                     showCourt: session.courts > 1,
-                                    isCurrent: session.currentIndex == groupIdx
+                                    isCurrent: session.currentIndex == groupIdx,
                                 )
                                 .onTapGesture {
                                     viewModel.currentSession?.currentIndex = groupIdx
@@ -189,24 +190,24 @@ struct SessionView : View {
                     guard let nextMatches = viewModel.currentSession?.generateNext() else {
                         return
                     }
-                    
+
                     viewModel.currentSession?.matchGroups.append(nextMatches)
                 }
-                
+
                 #if !os(Android)
-                Task {
-                    do {
-                        try await LiveActivityManager.shared.startOrUpdate(session)
-                    } catch {
-                        logger.warning("Failed to update live activity: \(error.localizedDescription)")
+                    Task {
+                        do {
+                            try await LiveActivityManager.shared.startOrUpdate(session)
+                        } catch {
+                            logger.warning("Failed to update live activity: \(error.localizedDescription)")
+                        }
                     }
-                }
                 #endif
             }
-#if !os(Android)
+            #if !os(Android)
             .onChange(of: viewModel.currentSession) { _, session in
                 guard let session else { return }
-                
+
                 Task {
                     do {
                         try await LiveActivityManager.shared.startOrUpdate(session)
@@ -220,7 +221,7 @@ struct SessionView : View {
                     await LiveActivityManager.shared.endAllActivities()
                 }
             }
-#endif
+            #endif
         } else {
             Text("No session")
         }
@@ -228,13 +229,13 @@ struct SessionView : View {
 }
 
 #if !os(Android)
-#Preview {
-    let viewModel = ViewModel()
-    viewModel.currentSessionID = viewModel.sessions.first?.id
-    
-    return NavigationView {
-        SessionView()
-            .environment(viewModel)
+    #Preview {
+        let viewModel = ViewModel()
+        viewModel.currentSessionID = viewModel.sessions.first?.id
+
+        return NavigationView {
+            SessionView()
+                .environment(viewModel)
+        }
     }
-}
 #endif
