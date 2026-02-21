@@ -4,9 +4,11 @@
 <dict>
 	<key>NSSupportsLiveActivities</key>
 	<true/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>processing</string>
+		<string>remote-notification</string>
 	</array>
 </dict>
 </plist>

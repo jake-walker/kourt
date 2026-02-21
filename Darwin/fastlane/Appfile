@@ -4,5 +4,6 @@
 require('dotenv')
 Dotenv.load '../../Skip.env'
 app_identifier(ENV['ANDROID_APPLICATION_ID'] || ENV['PRODUCT_BUNDLE_IDENTIFIER'])
+team_id("N93X7GBDAQ")
 
-# apple_id("my@email")
+apple_id(ENV['APPLE_ID'])

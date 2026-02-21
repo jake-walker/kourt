@@ -35,7 +35,14 @@ desc "Assemble Skip Android App"
 lane :assemble do
   gradle(
     gradle_path: gradle_bin,
-    task: "bundleRelease"
+    task: "bundleRelease",
+    print_command: false,
+    properties: {
+      "android.injected.signing.store.file" => ENV["ANDROID_SIGN_KEYSTORE_FILE"],
+      "android.injected.signing.store.password" => ENV["ANDROID_SIGN_KEYSTORE_PASSWORD"],
+      "android.injected.signing.key.alias" => ENV["ANDROID_SIGN_KEY_ALIAS"],
+      "android.injected.signing.key.password" => ENV["ANDROID_SIGN_KEY_PASSWORD"]
+    }
   )
   # sh "your_script.sh"
 end
@@ -46,6 +53,8 @@ lane :release do
   assemble
 
   upload_to_play_store(
+    track: "alpha",
+    release_status: "draft",
     aab: '../.build/Android/app/outputs/bundle/release/app-release.aab'
   )
 end

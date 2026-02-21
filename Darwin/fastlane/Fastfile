@@ -19,6 +19,60 @@ lane :assemble do |options|
   )
 end
 
+lane :setup_signing do |options|
+  api_key = lane_context[SharedValues::APP_STORE_CONNECT_API_KEY]
+  team_id = CredentialsManager::AppfileConfig.try_fetch_value(:team_id)
+  app_identifier = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
+
+  if team_id.nil?
+    UI.user_error!("Team ID is not defined in the Appfile. Please add it there or configure it dynamically.")
+  end
+
+  if app_identifier.nil?
+    UI.user_error!("App Identifier is not defined in the Appfile. Please add it there or configure it dynamically.")
+  end
+
+  app_store_connect_api_key(
+    key_id: ENV["ASC_KEY_ID"],
+    issuer_id: ENV["ASC_ISSUER_ID"],
+    key_content: ENV["ASC_KEY_CONTENT"],
+    is_key_content_base64: true,
+    in_house: false
+  )
+
+  # configure code signing settings
+  sync_code_signing(
+    type: "appstore",
+    app_identifier: [app_identifier, "#{app_identifier}.KourtWidget"],
+    readonly: is_ci
+  )
+  update_code_signing_settings(
+    use_automatic_signing: false,
+    team_id: team_id,
+    targets: ["Kourt App"],
+    profile_name: lane_context[:MATCH_PROVISIONING_PROFILE_MAPPING][app_identifier],
+    code_sign_identity: "Apple Distribution"
+  )
+  update_code_signing_settings(
+    use_automatic_signing: false,
+    team_id: team_id,
+    targets: ["KourtWidgetExtension"],
+    profile_name: lane_context[:MATCH_PROVISIONING_PROFILE_MAPPING]["#{app_identifier}.KourtWidget"],
+    code_sign_identity: "Apple Distribution"
+  )
+end
+
+
+lane :beta do |options|
+  setup_signing
+
+  assemble
+
+  upload_to_testflight(
+    api_key: lane_context[SharedValues::APP_STORE_CONNECT_API_KEY]
+  )
+end
+
 lane :release do |options|
   desc "Build and release app"
 
@@ -27,7 +81,7 @@ lane :release do |options|
 
   # if you have an apikey.json file (https://developer.apple.com/documentation/appstoreconnectapi/creating-api-keys-for-app-store-connect-api), fastlane can automatically fetch certificates and the ASC authentication information
   #get_certificates(api_key_path: "fastlane/apikey.json")
-  get_provisioning_profile(api_key_path: "fastlane/apikey.json")
+  setup_signing
 
   assemble
 
