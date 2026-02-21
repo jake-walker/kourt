@@ -11,10 +11,10 @@
     import Foundation
     import KourtShared
 
-    final class LiveActivityManager: NSObject, ObservableObject {
-        @MainActor static let shared = LiveActivityManager()
+    actor LiveActivityManager {
+        static let shared = LiveActivityManager()
 
-        @Published private var currentActivity: Activity<KourtWidgetAttributes>?
+        private nonisolated(unsafe) var currentActivity: Activity<KourtWidgetAttributes>?
 
         private static let defaultActivityState: KourtWidgetAttributes.ContentState = .init(groupIndex: 0, currentMatchGroup: [], nextMatchGroup: [])
 
