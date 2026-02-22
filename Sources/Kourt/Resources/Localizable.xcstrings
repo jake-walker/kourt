@@ -50,6 +50,12 @@
         }
       }
     },
+    "About" : {
+
+    },
+    "Acknowledgements" : {
+
+    },
     "Add" : {
       "comment" : "Button in items list that will cause a new item to be added",
       "extractionState" : "stale",
@@ -320,6 +326,9 @@
         }
       }
     },
+    "Licensed under GNU GPL v3.0" : {
+
+    },
     "Light" : {
       "comment" : "Menu item indicating that the appearance should be in light mode",
       "extractionState" : "stale",
@@ -559,6 +568,9 @@
     "Team Size" : {
 
     },
+    "This app is built with the help of the following open source libraries." : {
+
+    },
     "Title" : {
       "comment" : "Label for the item editor form indicating the title of the item",
       "extractionState" : "stale",
@@ -623,6 +635,9 @@
           }
         }
       }
+    },
+    "View on GitHub" : {
+
     },
     "vs." : {
 

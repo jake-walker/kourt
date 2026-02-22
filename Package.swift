@@ -14,6 +14,7 @@ let package = Package(
         .package(url: "https://source.skip.tools/skip.git", from: "1.7.2"),
         .package(url: "https://source.skip.tools/skip-fuse-ui.git", from: "1.0.0"),
         .package(url: "https://github.com/apple/swift-algorithms", from: "1.2.0"),
+        .package(url: "https://github.com/maiyama18/LicensesPlugin.git", from: "0.2.0"),
     ],
     targets: [
         .target(
@@ -23,7 +24,10 @@ let package = Package(
                 .product(name: "Algorithms", package: "swift-algorithms"),
                 "KourtShared",
             ], resources: [.process("Resources")],
-            plugins: [.plugin(name: "skipstone", package: "skip")],
+            plugins: [
+                .plugin(name: "skipstone", package: "skip"),
+                .plugin(name: "LicensesPlugin", package: "LicensesPlugin"),
+            ],
         ),
         .target(name: "KourtShared", dependencies: []),
     ],
