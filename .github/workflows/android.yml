@@ -1,0 +1,44 @@
+name: Android
+on:
+  workflow_call:
+    inputs:
+      track:
+        type: string
+        required: true
+
+jobs:
+
+  deploy-android:
+    name: Deploy Android
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Skip
+        uses: skiptools/actions/setup-skip@v1
+        with:
+          install-swift-android-sdk: true
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3
+          bundler-cache: true
+      - name: Retrieve secrets
+        env:
+          GOOGLE_PLAY_KEY_JSON_BASE64: ${{ secrets.GOOGLE_PLAY_KEY_JSON_BASE64 }}
+          ANDROID_SIGN_KEYSTORE_BASE64: ${{ secrets.ANDROID_SIGN_KEYSTORE_BASE64 }}
+        run: |
+          mkdir -p ./Android/fastlane/.secrets
+          echo $GOOGLE_PLAY_KEY_JSON_BASE64 | base64 --decode > ./Android/fastlane/.secrets/googleplay.json
+          echo $ANDROID_SIGN_KEYSTORE_BASE64 | base64 --decode > ./Android/fastlane/.secrets/keystore.jks
+      - name: Build & deploy to Google Play
+        working-directory: ./Android
+        run: bundle exec fastlane release
+        env:
+          ANDROID_SIGN_KEYSTORE_FILE: ${{ github.workspace }}/Android/fastlane/.secrets/keystore.jks
+          ANDROID_SIGN_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_SIGN_KEYSTORE_PASSWORD }}
+          ANDROID_SIGN_KEY_ALIAS: ${{ secrets.ANDROID_SIGN_KEY_ALIAS }}
+          ANDROID_SIGN_KEY_PASSWORD: ${{ secrets.ANDROID_SIGN_KEY_PASSWORD }}
+          TRACK: ${{ inputs.track }}

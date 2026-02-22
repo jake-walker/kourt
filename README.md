@@ -20,20 +20,18 @@ The app simplifies organizing sessions by generating fair match lists from a gro
 
 Kourt is built using [Skip](https://skip.dev), a toolchain for creating dual-platform iOS and Android apps from a single Swift codebase.
 
-### Branching Model
-- `main`: Active development happens here. This is the target for all Pull Requests.
-- `beta`: The current TestFlight and Google Play Beta version.
-- `release`: The production version available on the App Store and Google Play.
-
 ### CI/CD
+
 Releases are handled automatically via GitHub Actions.
 
 ## Getting Started
 
 ### Building
+
 This project is both a stand-alone Swift Package Manager module, as well as an Xcode project that builds and translates the project into a Kotlin Gradle project for Android using the `skipstone` plugin.
 
 Building the module requires that Skip be installed using [Homebrew](https://brew.sh):
+
 ```bash
 brew install skiptools/skip/skip
 ```
@@ -41,6 +39,7 @@ brew install skiptools/skip/skip
 This will also install the necessary Skip prerequisites: Kotlin, Gradle, and the Android build tools. Installation prerequisites can be confirmed by running `skip checkup`. The project can be validated with `skip verify`.
 
 ### Running
+
 Xcode and Android Studio must be installed to run the app in the iOS simulator or Android emulator. An Android emulator must already be running (launchable from Android Studio's Device Manager).
 
 1. Open `Project.xcworkspace` in Xcode.
@@ -49,15 +48,19 @@ Xcode and Android Studio must be installed to run the app in the iOS simulator o
 To run both platforms simultaneously, Xcode runs a "Launch Android APK" script that deploys the Skip app to a running Android emulator or connected device. iOS logs appear in the Xcode console; Android logs can be viewed in Android Studio's Logcat or via `adb logcat`.
 
 ### Testing
+
 The module can be tested using the standard `swift test` command or by running the test target for the macOS destination in Xcode. This runs both Swift tests and transpiled Kotlin JUnit tests (via Robolectric).
 
 For platform parity testing, run:
+
 ```bash
 skip test
 ```
 
 ## Contributing
+
 Contributions are welcome! Please ensure all Pull Requests target the `main` branch.
 
 ## License
+
 This software is licensed under the [GNU General Public License v3.0](LICENSE.txt).

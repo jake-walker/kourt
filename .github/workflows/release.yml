@@ -1,0 +1,15 @@
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  ios:
+    uses: ./.github/workflows/ios.yml
+    with:
+      track: ${{ contains(github.ref_name, '-b') && 'beta' || 'production' }}
+
+  android:
+    uses: ./.github/workflows/android.yml
+    with:
+      track: ${{ contains(github.ref_name, '-b') && 'beta' || 'production' }}
