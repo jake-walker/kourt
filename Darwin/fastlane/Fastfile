@@ -78,10 +78,17 @@ lane :beta do |options|
   setup_signing
   bump_build_number
 
+  Dir.chdir("../..") do
+    changelog = sh("./scripts/changelog.sh")
+  end
+
   assemble
 
   upload_to_testflight(
-    api_key: lane_context[SharedValues::APP_STORE_CONNECT_API_KEY]
+    api_key: lane_context[SharedValues::APP_STORE_CONNECT_API_KEY],
+    distribute_external: true,
+    groups: ["External"]
+    changelog: changelog
   )
 end
 
@@ -95,6 +102,10 @@ lane :release do |options|
   #get_certificates(api_key_path: "fastlane/apikey.json")
   setup_signing
   bump_build_number
+
+  Dir.chdir("../..") do
+    sh("./scripts/changelog.sh")
+  end
 
   assemble
 

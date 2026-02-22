@@ -59,9 +59,13 @@ end
 
 desc "Deploy Skip Android App to Google Play"
 lane :release do
-  track = "internal"
+  track = ENV["TRACK"] == "production" ? "production" : "alpha"
 
   bump_build_number(track: track)
+
+  Dir.chdir("../..") do
+    sh("./scripts/changelog.sh")
+  end
 
   assemble
 
