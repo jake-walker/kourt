@@ -13,7 +13,7 @@ Fixes
 {{ change_key }}
 {% endif %}
 {% for change in changes %}
-- {% if change.scope -%}**{{ change.scope }}**: {% endif -%} {{ change.message }}
+- {% if change.scope -%}({{ change.scope }}): {% endif -%} {{ change.message }}
 {% endfor %}
 {% endif %}
 {% endfor %}

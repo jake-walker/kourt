@@ -78,6 +78,7 @@ lane :beta do |options|
   setup_signing
   bump_build_number
 
+  changelog = nil
   Dir.chdir("../..") do
     changelog = sh("./scripts/changelog.sh")
   end
@@ -87,7 +88,7 @@ lane :beta do |options|
   upload_to_testflight(
     api_key: lane_context[SharedValues::APP_STORE_CONNECT_API_KEY],
     distribute_external: true,
-    groups: ["External"]
+    groups: ["External"],
     changelog: changelog
   )
 end
@@ -98,21 +99,20 @@ lane :release do |options|
   # see https://docs.fastlane.tools/uploading-app-privacy-details/
   #upload_app_privacy_details_to_app_store(json_path: "fastlane/app_privacy_details.json")
 
-  # if you have an apikey.json file (https://developer.apple.com/documentation/appstoreconnectapi/creating-api-keys-for-app-store-connect-api), fastlane can automatically fetch certificates and the ASC authentication information
-  #get_certificates(api_key_path: "fastlane/apikey.json")
   setup_signing
   bump_build_number
 
+  changelog = nil
   Dir.chdir("../..") do
-    sh("./scripts/changelog.sh")
+    changelog = sh("./scripts/changelog.sh")
   end
 
   assemble
 
   upload_to_app_store(
-    api_key_path: "fastlane/apikey.json",
+    api_key: lane_context[SharedValues::APP_STORE_CONNECT_API_KEY],
     app_rating_config_path: "fastlane/metadata/rating.json",
-    release_notes: { default: "Fixes and improvements." }
+    release_notes: { default: changelog }
   )
 end
 

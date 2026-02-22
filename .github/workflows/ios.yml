@@ -31,6 +31,8 @@ jobs:
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest-stable
+      - name: Install commitizen
+        run: brew install commitizen
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:

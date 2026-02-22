@@ -16,15 +16,17 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Setup Skip
-        uses: skiptools/actions/setup-skip@v1
-        with:
-          install-swift-android-sdk: true
+      - name: Install commitizen
+        run: brew install commitizen
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.3
           bundler-cache: true
+      - name: Setup Skip
+        uses: skiptools/actions/setup-skip@v1
+        with:
+          install-swift-android-sdk: true
       - name: Retrieve secrets
         env:
           GOOGLE_PLAY_KEY_JSON_BASE64: ${{ secrets.GOOGLE_PLAY_KEY_JSON_BASE64 }}

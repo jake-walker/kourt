@@ -73,7 +73,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		42FBE3D32F48DC1900872AF9 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		42FBE3D32F48DC1900872AF9 /* Exceptions for "KourtWidget" folder in "KourtWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -83,7 +83,18 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		42FBE3C32F48DC1800872AF9 /* KourtWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (42FBE3D32F48DC1900872AF9 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = KourtWidget; sourceTree = "<group>"; };
+		42FBE3C32F48DC1800872AF9 /* KourtWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				42FBE3D32F48DC1900872AF9 /* Exceptions for "KourtWidget" folder in "KourtWidgetExtension" target */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = KourtWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */

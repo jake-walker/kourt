@@ -5,11 +5,16 @@ on:
 
 jobs:
   ios:
+    permissions:
+      id-token: write
+      contents: read
     uses: ./.github/workflows/ios.yml
+    secrets: inherit
     with:
-      track: ${{ contains(github.ref_name, '-b') && 'beta' || 'production' }}
+      track: beta
 
   android:
     uses: ./.github/workflows/android.yml
+    secrets: inherit
     with:
-      track: ${{ contains(github.ref_name, '-b') && 'beta' || 'production' }}
+      track: beta
