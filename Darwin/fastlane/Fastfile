@@ -4,6 +4,10 @@
 
 default_platform(:ios)
 
+before_all do
+  setup_ci if ENV["CI"]
+end
+
 lane :assemble do |options|
   # only build the iOS side of the app
   ENV["SKIP_ZERO"] = "true"
@@ -62,9 +66,17 @@ lane :setup_signing do |options|
   )
 end
 
+lane :bump_build_number do |options|
+  next_build_number = latest_testflight_build_number(initial_build_number: 0) + 1
+
+  Dir.chdir("../..") do
+    sh("sed -i '' \"s;CURRENT_PROJECT_VERSION = .*;CURRENT_PROJECT_VERSION = #{next_build_number};g\" Skip.env")
+  end
+end
 
 lane :beta do |options|
   setup_signing
+  bump_build_number
 
   assemble
 
@@ -82,6 +94,7 @@ lane :release do |options|
   # if you have an apikey.json file (https://developer.apple.com/documentation/appstoreconnectapi/creating-api-keys-for-app-store-connect-api), fastlane can automatically fetch certificates and the ASC authentication information
   #get_certificates(api_key_path: "fastlane/apikey.json")
   setup_signing
+  bump_build_number
 
   assemble
 

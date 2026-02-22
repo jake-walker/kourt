@@ -11,7 +11,9 @@ default_platform(:android)
 # use the Homebrew gradle rather than expecting a local gradlew
 gradle_bin = (ENV['HOMEBREW_PREFIX'] ? ENV['HOMEBREW_PREFIX'] : "/opt/homebrew") + "/bin/gradle"
 
-default_platform(:android)
+before_all do
+  setup_ci if ENV["CI"]
+end
 
 desc "Build Skip Android App"
 lane :build do |options|
@@ -21,6 +23,14 @@ lane :build do |options|
     gradle_path: gradle_bin,
     flags: "--warning-mode none -x lint"
   )
+end
+
+lane :bump_build_number do |options|
+  next_build_number = google_play_track_version_codes(track: options[:track])[0] + 1
+
+  Dir.chdir("../..") do
+    sh("sed -i '' \"s;CURRENT_PROJECT_VERSION = .*;CURRENT_PROJECT_VERSION = #{next_build_number};g\" Skip.env")
+  end
 end
 
 desc "Test Skip Android App"
@@ -49,12 +59,15 @@ end
 
 desc "Deploy Skip Android App to Google Play"
 lane :release do
+  track = "internal"
+
+  bump_build_number(track: track)
 
   assemble
 
   upload_to_play_store(
-    track: "alpha",
-    release_status: "draft",
+    track: track,
+    release_status: "completed",
     aab: '../.build/Android/app/outputs/bundle/release/app-release.aab'
   )
 end
