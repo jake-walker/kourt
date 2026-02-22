@@ -1,7 +1,8 @@
 # Kourt
 
-This is a free and open-source [Skip](https://skip.dev) dual-platform app project.
+Kourt is a free and open-source matchmaking app for iOS and Android, designed to handle group rotations for court sports like badminton, tennis, squash, and any other game played on a court.
 
+The app simplifies organizing sessions by generating fair match lists from a group of players. It ensures everyone gets a turn to play and provides a balanced rotation, taking the guesswork and arguments out of "who plays next."
 
 <!-- TODO: add iOS screenshots to fastlane metadata
 ## iPhone Screenshots
@@ -15,50 +16,48 @@ This is a free and open-source [Skip](https://skip.dev) dual-platform app projec
 <img alt="Android Screenshot" src="Android/fastlane/metadata/android/en-US/images/phoneScreenshots/1_en-US.png" style="width: 18%" /> <img alt="Android Screenshot" src="Android/fastlane/metadata/android/en-US/images/phoneScreenshots/2_en-US.png" style="width: 18%" /> <img alt="Android Screenshot" src="Android/fastlane/metadata/android/en-US/images/phoneScreenshots/3_en-US.png" style="width: 18%" /> <img alt="Android Screenshot" src="Android/fastlane/metadata/android/en-US/images/phoneScreenshots/4_en-US.png" style="width: 18%" /> <img alt="Android Screenshot" src="Android/fastlane/metadata/android/en-US/images/phoneScreenshots/5_en-US.png" style="width: 18%" />
 -->
 
-## Building
+## Development
 
-This project is both a stand-alone Swift Package Manager module,
-as well as an Xcode project that builds and translates the project
-into a Kotlin Gradle project for Android using the skipstone plugin.
+Kourt is built using [Skip](https://skip.dev), a toolchain for creating dual-platform iOS and Android apps from a single Swift codebase.
 
-Building the module requires that Skip be installed using
-[Homebrew](https://brew.sh) with `brew install skiptools/skip/skip`.
+### Branching Model
+- `main`: Active development happens here. This is the target for all Pull Requests.
+- `beta`: The current TestFlight and Google Play Beta version.
+- `release`: The production version available on the App Store and Google Play.
 
-This will also install the necessary Skip prerequisites:
-Kotlin, Gradle, and the Android build tools.
+### CI/CD
+Releases are handled automatically via GitHub Actions.
 
-Installation prerequisites can be confirmed by running
-`skip checkup`. The project can be validated with `skip verify`.
+## Getting Started
 
-## Running
+### Building
+This project is both a stand-alone Swift Package Manager module, as well as an Xcode project that builds and translates the project into a Kotlin Gradle project for Android using the `skipstone` plugin.
 
-Xcode and Android Studio must be downloaded and installed in order to
-run the app in the iOS simulator / Android emulator.
-An Android emulator must already be running, which can be launched from
-Android Studio's Device Manager.
+Building the module requires that Skip be installed using [Homebrew](https://brew.sh):
+```bash
+brew install skiptools/skip/skip
+```
 
-The project can be opened and run in Xcode from
-`Project.xcworkspace`, which also enabled parallel
-development of any Skip library dependencies.
+This will also install the necessary Skip prerequisites: Kotlin, Gradle, and the Android build tools. Installation prerequisites can be confirmed by running `skip checkup`. The project can be validated with `skip verify`.
 
-To run both the Swift and Kotlin apps simultaneously,
-launch the "Kourt App" target from Xcode.
-A build phases runs the "Launch Android APK" script that
-will deploy the Skip app to a running Android emulator or connected device.
-Logging output for the iOS app can be viewed in the Xcode console, and in
-Android Studio's logcat tab for the transpiled Kotlin app, or
-using `adb logcat` from a terminal.
+### Running
+Xcode and Android Studio must be installed to run the app in the iOS simulator or Android emulator. An Android emulator must already be running (launchable from Android Studio's Device Manager).
 
-## Testing
+1. Open `Project.xcworkspace` in Xcode.
+2. Launch the **Kourt App** target.
 
-The module can be tested using the standard `swift test` command
-or by running the test target for the macOS destination in Xcode,
-which will run the Swift tests as well as the transpiled
-Kotlin JUnit tests in the Robolectric Android simulation environment.
+To run both platforms simultaneously, Xcode runs a "Launch Android APK" script that deploys the Skip app to a running Android emulator or connected device. iOS logs appear in the Xcode console; Android logs can be viewed in Android Studio's Logcat or via `adb logcat`.
 
-Parity testing can be performed with `skip test`,
-which will output a table of the test results for both platforms.
+### Testing
+The module can be tested using the standard `swift test` command or by running the test target for the macOS destination in Xcode. This runs both Swift tests and transpiled Kotlin JUnit tests (via Robolectric).
+
+For platform parity testing, run:
+```bash
+skip test
+```
+
+## Contributing
+Contributions are welcome! Please ensure all Pull Requests target the `main` branch.
 
 ## License
-
-This software is licensed under the [GNU General Public License v2.0 or later](https://spdx.org/licenses/GPL-2.0-or-later.html).
+This software is licensed under the [GNU General Public License v3.0](LICENSE.txt).
