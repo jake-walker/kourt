@@ -185,6 +185,9 @@ struct SessionView: View {
                 }
             }
             .navigationTitle("\(session.typeSummary) Session")
+            .toolbar {
+                ShareLink(item: session.shareText)
+            }
             .onAppear {
                 if session.matchGroups.isEmpty {
                     guard let nextMatches = viewModel.currentSession?.generateNext() else {
