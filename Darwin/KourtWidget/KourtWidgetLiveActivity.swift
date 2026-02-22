@@ -180,7 +180,7 @@ struct KourtWidgetLiveActivity: Widget {
                 Image(systemName: "sportscourt")
                     .foregroundStyle(.teal)
             } compactTrailing: {
-                Text("Match \(context.state.groupIndex + 1)")
+                Text("\(context.state.groupIndex + 1)")
             } minimal: {
                 Image(systemName: "sportscourt")
                     .foregroundStyle(.teal)
