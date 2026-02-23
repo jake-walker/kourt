@@ -10,7 +10,14 @@ import SwiftUI
 struct CreateSessionView: View {
     @Environment(ViewModel.self) var viewModel: ViewModel
     @Environment(\.dismiss) var dismiss
-    @State var session: Session = .init()
+    @State internal var session: Session = .init()
+    
+    var rosterSuggestions: [Player] {
+        viewModel.roster
+            .filter { player in
+                !session.players.contains { $0.id == player.id || $0.name == player.name }
+            }
+    }
 
     var requiredPlayers: Int {
         session.courts * (session.teamSize * 2)
@@ -63,19 +70,20 @@ struct CreateSessionView: View {
                     session.players.append(.init(name: ""))
                 }
             }
-
-            #if os(Android)
-                Section {
-                    Button("Create Session", systemImage: "checkmark", action: createSession)
-                        .disabled(!validSession)
-                    Button("Cancel", systemImage: "xmark") {
-                        dismiss()
+            
+            if !rosterSuggestions.isEmpty {
+                Section("Quick Add") {
+                    ForEach(rosterSuggestions) { player in
+                        Label(player.name, systemImage: "plus")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .onTapGesture {
+                                session.players.append(player)
+                            }
                     }
                 }
-            #endif
+            }
         }
         .navigationTitle("New Session")
-        #if !os(Android)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button(action: createSession) {
@@ -90,7 +98,6 @@ struct CreateSessionView: View {
                     }
                 }
             }
-        #endif
     }
 }
 

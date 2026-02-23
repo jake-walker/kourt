@@ -79,13 +79,11 @@ struct SessionListView: View {
             }
         #endif
             .sheet(isPresented: $isAdding) {
-                #if !os(Android)
-                    NavigationView {
-                        CreateSessionView()
-                    }
-                    .presentationDetents([.medium, .large])
-                #else
+                NavigationStack {
                     CreateSessionView()
+                }
+                #if !os(Android)
+                .presentationDetents([.medium, .large])
                 #endif
             }
     }

@@ -14,6 +14,10 @@ import SwiftUI
         didSet { saveSessions() }
     }
 
+    var roster: [Player] = loadRoster() {
+        didSet { saveRoster() }
+    }
+
     var currentSessionID: Session.ID?
 
     var currentSession: Session? {
@@ -173,6 +177,37 @@ private extension ViewModel {
             logger.info("saved \(data.count) bytes to \(Self.savePath.path) in \(end.timeIntervalSince(start)) seconds")
         } catch {
             logger.error("error saving data: \(error)")
+        }
+    }
+
+    private static let rosterSavePath = URL.applicationSupportDirectory.appendingPathComponent("rosterdata.json")
+
+    static func loadRoster() -> [Player] {
+        do {
+            let start = Date.now
+            let data = try Data(contentsOf: rosterSavePath)
+            defer {
+                let end = Date.now
+                logger.info("loaded roster: \(data.count) bytes from \(rosterSavePath.path) in \(end.timeIntervalSince(start)) seconds")
+            }
+            return try JSONDecoder().decode([Player].self, from: data)
+        } catch {
+            // Initial launch or failed read
+            logger.warning("failed to load roster from \(rosterSavePath), using empty: \(error)")
+            return []
+        }
+    }
+
+    func saveRoster() {
+        do {
+            let start = Date.now
+            let data = try JSONEncoder().encode(roster)
+            try FileManager.default.createDirectory(at: URL.applicationSupportDirectory, withIntermediateDirectories: true)
+            try data.write(to: Self.rosterSavePath)
+            let end = Date.now
+            logger.info("saved roster: \(data.count) bytes to \(Self.rosterSavePath.path) in \(end.timeIntervalSince(start)) seconds")
+        } catch {
+            logger.error("error saving roster: \(error)")
         }
     }
 }
