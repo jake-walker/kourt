@@ -78,6 +78,7 @@ struct SessionListView: View {
                     isAdding = true
                 }, icon: .add)
                     .padding()
+                    .accessibilityLabel(Text("Add Session"))
             #endif
         }
         .navigationTitle("Sessions")
@@ -94,9 +95,6 @@ struct SessionListView: View {
                 NavigationStack {
                     CreateSessionView()
                 }
-                #if !os(Android)
-                .presentationDetents([.medium, .large])
-                #endif
             }
     }
 }

@@ -47,7 +47,7 @@ struct RosterView: View {
             } else {
                 List {
                     if !viewModel.roster.isEmpty {
-                        Section("My Players") {
+                        Section {
                             ForEach(viewModel.roster) { player in
                                 Text(player.name)
                             }
@@ -55,13 +55,15 @@ struct RosterView: View {
                         }
                     }
 
-                    Section("Recent Players") {
-                        ForEach(recentPlayers) { player in
-                            Label(player.name, systemImage: "plus")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .onTapGesture {
-                                    viewModel.roster.append(player)
-                                }
+                    if !recentPlayers.isEmpty {
+                        Section("Recent Players") {
+                            ForEach(recentPlayers) { player in
+                                Label(player.name, systemImage: "plus")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .onTapGesture {
+                                        viewModel.roster.append(player)
+                                    }
+                            }
                         }
                     }
                 }
@@ -72,6 +74,7 @@ struct RosterView: View {
                     showingAddPlayer = true
                 }, icon: .add)
                     .padding()
+                    .accessibilityLabel(Text("Add Player"))
             #endif
         }
         #if !os(Android)
@@ -85,6 +88,7 @@ struct RosterView: View {
         #endif
         .alert("Add Player", isPresented: $showingAddPlayer) {
             TextField("Name", text: $newPlayerName)
+                .accessibilityLabel("Player Name")
 
             Button("Cancel", role: .cancel) {
                 newPlayerName = ""

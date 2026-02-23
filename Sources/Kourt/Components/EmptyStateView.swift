@@ -35,6 +35,7 @@ struct EmptyStateView: View {
         }
         .padding(.horizontal, 32)
         .padding(.vertical, 64)
+        .frame(maxHeight: .infinity, alignment: .center)
     }
 }
 
@@ -47,5 +48,6 @@ struct EmptyStateView: View {
             actionIcon: "plus",
             action: {},
         )
+        .background(.yellow)
     }
 #endif

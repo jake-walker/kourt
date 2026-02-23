@@ -76,6 +76,7 @@ struct CreateSessionView: View {
                     ForEach(rosterSuggestions) { player in
                         Label(player.name, systemImage: "plus")
                             .frame(maxWidth: .infinity, alignment: .leading)
+                            .accessibilityIdentifier("quickAdd_\(player.name)")
                             .onTapGesture {
                                 session.players.append(player)
                             }
@@ -90,6 +91,7 @@ struct CreateSessionView: View {
                     Label("Create Session", systemImage: "checkmark")
                 }
                 .disabled(!validSession)
+                .accessibilityLabel("Create Session")
             }
 
             ToolbarItem(placement: .cancellationAction) {

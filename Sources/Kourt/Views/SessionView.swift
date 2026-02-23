@@ -66,7 +66,7 @@ struct MatchItem: View {
         let teamA = match.teamAPlayers(from: sessionPlayers).map(\.name)
         let teamB = match.teamBPlayers(from: sessionPlayers).map(\.name)
 
-        return "\(teamA.joined(separator: String(localized: " and "))) vs. \(teamB.joined(separator: String(localized: " and ")))"
+        return "\(teamA.joined(separator: " and ")) vs. \(teamB.joined(separator: " and "))"
     }
 
     var body: some View {
@@ -173,6 +173,7 @@ struct SessionView: View {
                 #if os(Android)
                     AndroidFab(onClick: nextMatch, icon: .forward)
                         .padding()
+                        .accessibilityLabel(Text("Next"))
                 #endif
             }
             .sheet(isPresented: $showingHistory) {
@@ -195,6 +196,7 @@ struct SessionView: View {
                     ) {
                         showingHistory.toggle()
                     }
+                    .accessibilityLabel("History")
                 }
 
                 #if !os(Android)
