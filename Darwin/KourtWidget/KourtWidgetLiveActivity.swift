@@ -119,7 +119,7 @@ struct MainActivityView: View {
         case .small:
             smallFamily
                 .padding()
-                .activityBackgroundTint(.teal)
+                .activityBackgroundTint(.accent)
                 .colorScheme(.light)
                 .activitySystemActionForegroundColor(.white)
         case .medium:
@@ -178,14 +178,14 @@ struct KourtWidgetLiveActivity: Widget {
                 }
             } compactLeading: {
                 Image(systemName: "sportscourt")
-                    .foregroundStyle(.teal)
+                    .foregroundStyle(.accent)
             } compactTrailing: {
                 Text("\(context.state.groupIndex + 1)")
             } minimal: {
                 Image(systemName: "sportscourt")
-                    .foregroundStyle(.teal)
+                    .foregroundStyle(.accent)
             }
-            .keylineTint(Color.teal)
+            .keylineTint(.accent)
         }
         .supplementalActivityFamilies([.small, .medium])
     }

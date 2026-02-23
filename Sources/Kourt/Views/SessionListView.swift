@@ -33,39 +33,51 @@ struct SessionListView: View {
 
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
-            List {
-                ForEach(filteredSessions) { session in
-                    Button(action: {
-                        viewModel.currentSessionID = session.id
-                        viewModel.navigationPath.append(AppDestination.session(session.id))
-                    }) {
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(session.date, format: .dateTime.day().month(.abbreviated).year().weekday().hour().minute())
-                                    .lineLimit(1)
+            if viewModel.sessions.isEmpty {
+                EmptyStateView(
+                    title: "No Sessions Yet",
+                    label: "Create a session to get started. Add your players and courts, and the app will take care of the rest.",
+                    actionText: "Add Session",
+                    actionIcon: "plus",
+                    action: {
+                        isAdding = true
+                    },
+                )
+            } else {
+                List {
+                    ForEach(filteredSessions) { session in
+                        Button(action: {
+                            viewModel.currentSessionID = session.id
+                            viewModel.navigationPath.append(AppDestination.session(session.id))
+                        }) {
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(session.date, format: .dateTime.day().month(.abbreviated).year().weekday().hour().minute())
+                                        .lineLimit(1)
 
-                                Text(session.players.isEmpty ? "\(session.typeSummary) with no players" : "\(session.typeSummary) with \(session.playerSummary)")
-                                    .lineLimit(2)
+                                    Text(session.players.isEmpty ? "\(session.typeSummary) with no players" : "\(session.typeSummary) with \(session.playerSummary)")
+                                        .lineLimit(2)
+                                        .foregroundStyle(.secondary)
+                                }
+
+                                Spacer()
+
+                                Image(systemName: "chevron.right")
                                     .foregroundStyle(.secondary)
                             }
-
-                            Spacer()
-
-                            Image(systemName: "chevron.right")
-                                .foregroundStyle(.secondary)
                         }
+                        .foregroundStyle(.primary)
                     }
-                    .foregroundStyle(.primary)
+                    .onDelete(perform: delete)
                 }
-                .onDelete(perform: delete)
+                .searchable(text: $searchText)
             }
-            .searchable(text: $searchText)
 
             #if os(Android)
                 AndroidFab(onClick: {
                     isAdding = true
-                })
-                .padding()
+                }, icon: .add)
+                    .padding()
             #endif
         }
         .navigationTitle("Sessions")

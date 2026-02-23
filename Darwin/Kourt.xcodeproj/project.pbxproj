@@ -73,7 +73,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		42FBE3D32F48DC1900872AF9 /* Exceptions for "KourtWidget" folder in "KourtWidgetExtension" target */ = {
+		42FBE3D32F48DC1900872AF9 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -83,18 +83,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		42FBE3C32F48DC1800872AF9 /* KourtWidget */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				42FBE3D32F48DC1900872AF9 /* Exceptions for "KourtWidget" folder in "KourtWidgetExtension" target */,
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = KourtWidget;
-			sourceTree = "<group>";
-		};
+		42FBE3C32F48DC1800872AF9 /* KourtWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (42FBE3D32F48DC1900872AF9 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = KourtWidget; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -492,8 +481,10 @@
 				DEVELOPMENT_TEAM = N93X7GBDAQ;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(IPHONEOS_DEPLOYMENT_TARGET)";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = "";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore xyz.jakewalker.kourt";
 				REGISTER_APP_GROUPS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -514,6 +505,7 @@
 				DEVELOPMENT_TEAM = N93X7GBDAQ;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(IPHONEOS_DEPLOYMENT_TARGET)";
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore xyz.jakewalker.kourt";

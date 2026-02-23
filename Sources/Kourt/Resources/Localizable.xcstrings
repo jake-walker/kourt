@@ -58,7 +58,6 @@
     },
     "Add" : {
       "comment" : "Button in items list that will cause a new item to be added",
-      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -127,7 +126,6 @@
     },
     "Cancel" : {
       "comment" : "Button title indicating that the operation should be cancelled",
-      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -296,6 +294,9 @@
         }
       }
     },
+    "History" : {
+
+    },
     "Home" : {
       "comment" : "Tab bar item title for the Home tab",
       "extractionState" : "stale",
@@ -362,12 +363,14 @@
     "Match %lld" : {
 
     },
-    "Matches" : {
+    "Match History" : {
+
+    },
+    "My Players" : {
 
     },
     "Name" : {
       "comment" : "Placeholder title for the Name field in a form",
-      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -469,6 +472,12 @@
           }
         }
       }
+    },
+    "Quick Add" : {
+
+    },
+    "Recently Players" : {
+
     },
     "Save" : {
       "comment" : "Button title indicating that the current contents should be saved",

@@ -10,8 +10,8 @@ import SwiftUI
 struct CreateSessionView: View {
     @Environment(ViewModel.self) var viewModel: ViewModel
     @Environment(\.dismiss) var dismiss
-    @State internal var session: Session = .init()
-    
+    @State var session: Session = .init()
+
     var rosterSuggestions: [Player] {
         viewModel.roster
             .filter { player in
@@ -70,7 +70,7 @@ struct CreateSessionView: View {
                     session.players.append(.init(name: ""))
                 }
             }
-            
+
             if !rosterSuggestions.isEmpty {
                 Section("Quick Add") {
                     ForEach(rosterSuggestions) { player in
@@ -84,20 +84,20 @@ struct CreateSessionView: View {
             }
         }
         .navigationTitle("New Session")
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button(action: createSession) {
-                        Label("Create Session", systemImage: "checkmark")
-                    }
-                    .disabled(!validSession)
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button(action: createSession) {
+                    Label("Create Session", systemImage: "checkmark")
                 }
+                .disabled(!validSession)
+            }
 
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Close", systemImage: "xmark", role: .cancel) {
-                        dismiss()
-                    }
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Close", systemImage: "xmark", role: .cancel) {
+                    dismiss()
                 }
             }
+        }
     }
 }
 

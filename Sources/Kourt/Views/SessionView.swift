@@ -10,33 +10,6 @@ import SwiftUI
 struct CurrentMatch: View {
     @Environment(ViewModel.self) var viewModel: ViewModel
 
-    private func nextMatch() {
-        guard let currentSession = viewModel.currentSession else {
-            return
-        }
-
-        if currentSession.currentIndex < currentSession.matchGroups.count - 1 {
-            viewModel.currentSession?.currentIndex += 1
-            return
-        }
-
-        guard let nextMatches = viewModel.currentSession?.generateNext() else {
-            return
-        }
-
-        viewModel.currentSession?.matchGroups.append(nextMatches)
-        viewModel.currentSession?.currentIndex += 1
-    }
-
-    var nextButton: some View {
-        Button(action: nextMatch) {
-            Label("Next", systemImage: "arrow.forward")
-                .foregroundStyle(.foreground)
-                .frame(maxWidth: .infinity)
-                .padding(8)
-        }
-    }
-
     var body: some View {
         VStack(alignment: .leading) {
             if let session = viewModel.currentSession,
@@ -78,22 +51,6 @@ struct CurrentMatch: View {
                     .frame(maxWidth: .infinity)
                 }
             }
-
-            #if !os(Android)
-                if #available(iOS 26.0, *) {
-                    nextButton
-                        .buttonStyle(.glassProminent)
-                        .frame(maxWidth: .infinity)
-                } else {
-                    nextButton
-                        .buttonStyle(.borderedProminent)
-                        .frame(maxWidth: .infinity)
-                }
-            #else
-                nextButton
-                    .buttonStyle(.borderedProminent)
-                    .frame(maxWidth: .infinity)
-            #endif
         }
     }
 }
@@ -144,49 +101,111 @@ struct MatchItem: View {
     }
 }
 
+struct MatchHistoryView: View {
+    @Environment(ViewModel.self) var viewModel: ViewModel
+    let session: Session
+
+    var body: some View {
+        List {
+            ForEach(session.matchGroups.indices, id: \.self) { groupIdx in
+                ForEach(session.matchGroups[groupIdx], id: \.id) { match in
+                    MatchItem(
+                        sessionPlayers: session.players,
+                        match: match,
+                        index: groupIdx,
+                        showCourt: session.courts > 1,
+                        isCurrent: session.currentIndex == groupIdx,
+                    )
+                    .onTapGesture {
+                        viewModel.currentSession?.currentIndex = groupIdx
+                    }
+                }
+            }
+        }
+    }
+}
+
 struct SessionView: View {
     @Environment(ViewModel.self) var viewModel: ViewModel
 
+    @State var showingHistory = false
+
+    private func nextMatch() {
+        guard let currentSession = viewModel.currentSession else {
+            return
+        }
+
+        if currentSession.currentIndex < currentSession.matchGroups.count - 1 {
+            viewModel.currentSession?.currentIndex += 1
+            return
+        }
+
+        guard let nextMatches = viewModel.currentSession?.generateNext() else {
+            return
+        }
+
+        viewModel.currentSession?.matchGroups.append(nextMatches)
+        viewModel.currentSession?.currentIndex += 1
+    }
+
+    var nextButton: some View {
+        Button(action: nextMatch) {
+            Label("Next", systemImage: "arrow.forward")
+                .frame(maxWidth: .infinity)
+                .padding(8)
+        }
+    }
+
     var body: some View {
         if let session = viewModel.currentSession {
-            List {
-                Section {
+            ZStack(alignment: .bottomTrailing) {
+                ScrollView {
+                    Text("Match \(session.currentIndex + 1)")
+                        .font(.title)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .multilineTextAlignment(.leading)
+                        .padding(.horizontal)
                     CurrentMatch()
                         .environment(viewModel)
-                        .frame(maxWidth: .infinity)
                         .padding()
-                } header: {
-                    HStack {
-                        Text(session.date, format: .dateTime.day().month(.abbreviated).year().weekday().hour().minute())
-                        Text(inflect(session.players.count, singular: "player", plural: "players"))
-                    }
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
-                if !session.matches.isEmpty {
-                    Section("Matches") {
-                        ForEach(session.matchGroups.indices, id: \.self) { groupIdx in
-                            ForEach(session.matchGroups[groupIdx], id: \.id) { match in
-                                MatchItem(
-                                    sessionPlayers: session.players,
-                                    match: match,
-                                    index: groupIdx,
-                                    showCourt: session.courts > 1,
-                                    isCurrent: session.currentIndex == groupIdx,
-                                )
-                                .onTapGesture {
-                                    viewModel.currentSession?.currentIndex = groupIdx
-                                }
-                            }
-                        }
-                    }
+                #if os(Android)
+                    AndroidFab(onClick: nextMatch, icon: .forward)
+                        .padding()
+                #endif
+            }
+            .sheet(isPresented: $showingHistory) {
+                NavigationStack {
+                    MatchHistoryView(session: session)
+                        .environment(viewModel)
+                        .navigationTitle("Match History")
+                    #if !os(Android)
+                        .presentationDetents([.medium, .large])
+                        .presentationBackgroundInteraction(.enabled)
+                    #endif
                 }
             }
             .navigationTitle("\(session.typeSummary) Session")
             .toolbar {
-                ShareLink(item: session.shareText)
+                ToolbarItem(placement: .primaryAction) {
+                    Button(
+                        "History",
+                        systemImage: "clock.arrow.trianglehead.counterclockwise.rotate.90",
+                    ) {
+                        showingHistory.toggle()
+                    }
+                }
+
+                #if !os(Android)
+                    if #available(iOS 26.0, *) {
+                        ToolbarSpacer(.flexible, placement: .primaryAction)
+                    }
+                #endif
+
+                ToolbarItem(placement: .primaryAction) {
+                    ShareLink(item: session.shareText)
+                }
             }
             .onAppear {
                 if session.matchGroups.isEmpty {
@@ -202,12 +221,25 @@ struct SessionView: View {
                         do {
                             try await LiveActivityManager.shared.startOrUpdate(session)
                         } catch {
-                            logger.warning("Failed to update live activity: \(error.localizedDescription)")
+                            logger.warning(
+                                "Failed to update live activity: \(error.localizedDescription)",
+                            )
                         }
                     }
                 #endif
             }
             #if !os(Android)
+            .conditionalSafeArea {
+                if #available(iOS 26.0, *) {
+                    nextButton
+                        .buttonStyle(.glassProminent)
+                        .frame(maxWidth: .infinity)
+                } else {
+                    nextButton
+                        .buttonStyle(.borderedProminent)
+                        .frame(maxWidth: .infinity)
+                }
+            }
             .onChange(of: viewModel.currentSession) { _, session in
                 guard let session else { return }
 
@@ -215,7 +247,9 @@ struct SessionView: View {
                     do {
                         try await LiveActivityManager.shared.startOrUpdate(session)
                     } catch {
-                        logger.warning("Failed to update live activity: \(error.localizedDescription)")
+                        logger.warning(
+                            "Failed to update live activity: \(error.localizedDescription)",
+                        )
                     }
                 }
             }
