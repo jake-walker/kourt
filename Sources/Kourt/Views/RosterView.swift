@@ -33,7 +33,7 @@ struct RosterView: View {
     }
 
     var body: some View {
-        Group {
+        ZStack(alignment: .bottomTrailing) {
             if viewModel.roster.isEmpty, recentPlayers.isEmpty {
                 EmptyStateView(
                     title: "No Players Yet",
@@ -66,7 +66,15 @@ struct RosterView: View {
                     }
                 }
             }
+
+            #if os(Android)
+                AndroidFab(onClick: {
+                    showingAddPlayer = true
+                }, icon: .add)
+                    .padding()
+            #endif
         }
+        #if !os(Android)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button("Add Player", systemImage: "plus") {
@@ -74,6 +82,7 @@ struct RosterView: View {
                 }
             }
         }
+        #endif
         .alert("Add Player", isPresented: $showingAddPlayer) {
             TextField("Name", text: $newPlayerName)
 
