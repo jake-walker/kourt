@@ -55,7 +55,7 @@ struct RosterView: View {
                         }
                     }
 
-                    Section("Recently Players") {
+                    Section("Recent Players") {
                         ForEach(recentPlayers) { player in
                             Label(player.name, systemImage: "plus")
                                 .frame(maxWidth: .infinity, alignment: .leading)
