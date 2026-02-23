@@ -1,0 +1,22 @@
+appId: ${APP_ID}
+onFlowStart:
+  - runFlow: subflows/setup.yaml
+---
+- tapOn: "My Players"
+- takeScreenshot:
+    path: "Players"
+- tapOn: "Sessions"
+- takeScreenshot:
+    path: "Home"
+- tapOn: "Doubles with.*"
+- repeat:
+    times: 3
+    commands:
+      - tapOn: "Next"
+- takeScreenshot:
+    path: "CurrentMatch"
+- tapOn: "History"
+- tapOn: "Match 2"
+- takeScreenshot:
+    path: "MatchHistory"
+

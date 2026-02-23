@@ -1,0 +1,35 @@
+appId: ${APP_ID}
+---
+- launchApp:
+    clearState: true
+- tapOn: "My Players"
+- evalScript: ${output.items = ["Alice", "Bob", "Charlie", "Denise", "Ellie", "Freddy"]}
+- evalScript: ${output.index = 0}
+- repeat:
+    while:
+      true: ${output.index < output.items.length}
+    commands:
+      - tapOn: "Add Player"
+      - tapOn:
+          point: "50%, 50%"
+      - eraseText
+      - inputText: ${output.items[output.index]}
+      - tapOn: "Add"
+      - evalScript: ${output.index++}
+- tapOn: "Sessions"
+- tapOn: "Add Session"
+- scroll
+- evalScript: ${output.index = 0}
+- repeat:
+    while:
+      true: ${output.index < output.items.length}
+    commands:
+      - tapOn:
+          id: quickAdd_${output.items[output.index]}
+      - evalScript: ${output.index++}
+- takeScreenshot:
+    path: "CreateSession"
+- tapOn: "Create Session"
+- swipe:
+    direction: RIGHT
+- back

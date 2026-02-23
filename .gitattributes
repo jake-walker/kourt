@@ -1,0 +1,2 @@
+Darwin/fastlane/screenshots/**/*.png filter=lfs diff=lfs merge=lfs -text
+Android/fastlane/metadata/android/**/*.png filter=lfs diff=lfs merge=lfs -text
