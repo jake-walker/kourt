@@ -43,6 +43,13 @@ struct ContentView: View {
         TabView(selection: $selectedTab) {
             NavigationStack(path: $viewModel.navigationPath) {
                 SessionListView()
+                    .toolbar {
+                        ToolbarItem(placement: .secondaryAction) {
+                            Button("Settings", systemImage: "gearshape") {
+                                viewModel.navigationPath.append(AppDestination.settings)
+                            }
+                        }
+                    }
                     .navigationDestination(for: AppDestination.self) { destination in
                         switch destination {
                         case .session:
@@ -59,13 +66,6 @@ struct ContentView: View {
             }
             .tabItem {
                 Label(HomeTab.sessions.title, systemImage: HomeTab.sessions.icon)
-            }
-            .toolbar {
-                ToolbarItem(placement: .secondaryAction) {
-                    Button("Settings", systemImage: "gearshape") {
-                        viewModel.navigationPath.append(AppDestination.settings)
-                    }
-                }
             }
             .tag(HomeTab.sessions)
 
