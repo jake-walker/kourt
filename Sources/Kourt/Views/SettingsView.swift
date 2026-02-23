@@ -22,13 +22,13 @@ struct SettingsView: View {
 
                 Link(destination: repoUrl) {
                     Text("View on GitHub")
-                        .frame(maxWidth: .infinity)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .buttonStyle(.plain)
 
                 Link(destination: licenseUrl) {
                     Text("Licensed under GNU GPL v3.0")
-                        .frame(maxWidth: .infinity)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .buttonStyle(.plain)
 
