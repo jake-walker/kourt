@@ -25,9 +25,11 @@ struct SessionListView: View {
     }
 
     private func delete(at offsets: IndexSet) {
-        for index in offsets {
-            let toDelete = filteredSessions[index]
-            viewModel.removeSession(id: toDelete.id)
+        withAnimation {
+            for index in offsets {
+                let toDelete = filteredSessions[index]
+                viewModel.removeSession(id: toDelete.id)
+            }
         }
     }
 

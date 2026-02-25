@@ -30,7 +30,9 @@ struct CreateSessionView: View {
     }
 
     private func deletePlayer(at offsets: IndexSet) {
-        session.players.remove(atOffsets: offsets)
+        withAnimation {
+            session.players.remove(atOffsets: offsets)
+        }
     }
 
     private func createSession() {
@@ -67,7 +69,9 @@ struct CreateSessionView: View {
                 .onDelete(perform: deletePlayer)
 
                 Button("Add Player", systemImage: "plus") {
-                    session.players.append(.init(name: ""))
+                    withAnimation {
+                        session.players.append(.init(name: ""))
+                    }
                 }
             }
 
@@ -78,7 +82,9 @@ struct CreateSessionView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .accessibilityIdentifier("quickAdd_\(player.name)")
                             .onTapGesture {
-                                session.players.append(player)
+                                withAnimation {
+                                    session.players.append(player)
+                                }
                             }
                     }
                 }

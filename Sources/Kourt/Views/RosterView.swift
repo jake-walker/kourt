@@ -25,11 +25,15 @@ struct RosterView: View {
     }
 
     private func addPlayer(_ name: String) {
-        viewModel.roster.append(.init(name: name))
+        withAnimation {
+            viewModel.roster.append(.init(name: name))
+        }
     }
 
     private func deletePlayer(at offsets: IndexSet) {
-        viewModel.roster.remove(atOffsets: offsets)
+        withAnimation {
+            viewModel.roster.remove(atOffsets: offsets)
+        }
     }
 
     var body: some View {
@@ -61,7 +65,9 @@ struct RosterView: View {
                                 Label(player.name, systemImage: "plus")
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .onTapGesture {
-                                        viewModel.roster.append(player)
+                                        withAnimation {
+                                            viewModel.roster.append(player)
+                                        }
                                     }
                             }
                         }

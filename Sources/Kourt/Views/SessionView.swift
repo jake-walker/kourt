@@ -7,6 +7,41 @@
 
 import SwiftUI
 
+struct PlayerListView: View {
+    let players: [Player]
+
+    var body: some View {
+        VStack(spacing: 8) {
+            ForEach(players, id: \.id) { player in
+                Text(player.name)
+                    .font(.system(size: 24))
+                    .transition(.opacity)
+            }
+        }
+    }
+}
+
+struct MatchView: View {
+    let match: Match
+    let sessionPlayers: [Player]
+
+    var body: some View {
+        HStack {
+            PlayerListView(players: match.teamAPlayers(from: sessionPlayers))
+                .padding()
+                .frame(maxWidth: .infinity)
+
+            Text("vs.")
+                .padding()
+                .nonAndroidContentTransition(.identity)
+
+            PlayerListView(players: match.teamBPlayers(from: sessionPlayers))
+                .padding()
+                .frame(maxWidth: .infinity)
+        }
+    }
+}
+
 struct CurrentMatch: View {
     @Environment(ViewModel.self) var viewModel: ViewModel
 
@@ -15,7 +50,7 @@ struct CurrentMatch: View {
             if let session = viewModel.currentSession,
                let currentGroup = session.currentMatches
             {
-                ForEach(Array(currentGroup.enumerated()), id: \.element.id) { index, match in
+                ForEach(Array(currentGroup.enumerated()), id: \.offset) { index, match in
                     if index > 0 {
                         Divider()
                             .padding([.top, .bottom], 8)
@@ -23,32 +58,12 @@ struct CurrentMatch: View {
 
                     if session.courts > 1 {
                         Text("Court \(match.court + 1):")
+                            .nonAndroidMonospacedDigit()
                             .font(.headline)
                     }
 
-                    HStack {
-                        VStack(spacing: 8) {
-                            ForEach(match.teamAPlayers(from: session.players), id: \.id) { player in
-                                Text(player.name)
-                                    .font(.system(size: 24))
-                            }
-                        }
-                        .padding()
+                    MatchView(match: match, sessionPlayers: session.players)
                         .frame(maxWidth: .infinity)
-
-                        Text("vs.")
-                            .padding()
-
-                        VStack(spacing: 8) {
-                            ForEach(match.teamBPlayers(from: session.players), id: \.id) { player in
-                                Text(player.name)
-                                    .font(.system(size: 24))
-                            }
-                        }
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                    }
-                    .frame(maxWidth: .infinity)
                 }
             }
         }
@@ -117,7 +132,9 @@ struct MatchHistoryView: View {
                         isCurrent: session.currentIndex == groupIdx,
                     )
                     .onTapGesture {
-                        viewModel.currentSession?.currentIndex = groupIdx
+                        withAnimation {
+                            viewModel.currentSession?.currentIndex = groupIdx
+                        }
                     }
                 }
             }
@@ -136,7 +153,9 @@ struct SessionView: View {
         }
 
         if currentSession.currentIndex < currentSession.matchGroups.count - 1 {
-            viewModel.currentSession?.currentIndex += 1
+            withAnimation {
+                viewModel.currentSession?.currentIndex += 1
+            }
             return
         }
 
@@ -144,8 +163,10 @@ struct SessionView: View {
             return
         }
 
-        viewModel.currentSession?.matchGroups.append(nextMatches)
-        viewModel.currentSession?.currentIndex += 1
+        withAnimation {
+            viewModel.currentSession?.matchGroups.append(nextMatches)
+            viewModel.currentSession?.currentIndex += 1
+        }
     }
 
     var nextButton: some View {
@@ -162,6 +183,8 @@ struct SessionView: View {
                 ScrollView {
                     Text("Match \(session.currentIndex + 1)")
                         .font(.title)
+                        .nonAndroidMonospacedDigit()
+                        .nonAndroidContentTransition(.numericText())
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .multilineTextAlignment(.leading)
                         .padding(.horizontal)
