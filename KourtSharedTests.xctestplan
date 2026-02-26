@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "C1DEB5B2-4BE6-433F-8F97-A54CAB1427E2",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "KourtSharedTests",
+        "name" : "KourtSharedTests"
+      }
+    }
+  ],
+  "version" : 1
+}

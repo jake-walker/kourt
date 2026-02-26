@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "kourt-app",
     defaultLocalization: "en",
-    platforms: [.iOS(.v17)],
+    platforms: [.iOS(.v17), .macOS(.v14)],
     products: [
         .library(name: "Kourt", type: .dynamic, targets: ["Kourt"]),
         .library(name: "KourtShared", targets: ["KourtShared"]),
@@ -28,8 +28,12 @@ let package = Package(
                 .plugin(name: "LicensesPlugin", package: "LicensesPlugin"),
             ],
         ),
-        .target(name: "KourtShared", dependencies: [
-            .product(name: "Algorithms", package: "swift-algorithms"),
-        ]),
+        .target(
+            name: "KourtShared",
+            dependencies: [
+                .product(name: "Algorithms", package: "swift-algorithms"),
+            ],
+        ),
+        .testTarget(name: "KourtSharedTests", dependencies: ["KourtShared"]),
     ],
 )

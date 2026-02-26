@@ -4,4 +4,7 @@
    <FileRef
       location = "group:Darwin/Kourt.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:KourtSharedTests.xctestplan">
+   </FileRef>
 </Workspace>
