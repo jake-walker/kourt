@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import Foundation
+import KourtShared
 import Observation
 import SkipFuse
 import SwiftUI
@@ -54,98 +55,6 @@ import SwiftUI
 //            i.id == item.id ? item : i
 //        }
 //    }
-}
-
-struct Session: Identifiable, Hashable, Codable {
-    let id: UUID
-    var date: Date
-    var players: [Player]
-    var courts: Int
-    var teamSize: Int
-    var matchGroups: [[Match]]
-    var currentIndex: Int = 0
-
-    var matches: [Match] {
-        matchGroups.flatMap(\.self)
-    }
-
-    var currentMatches: [Match]? {
-        guard currentIndex >= 0, currentIndex < matchGroups.count else {
-            return nil
-        }
-
-        return matchGroups[currentIndex]
-    }
-
-    var nextMatches: [Match] {
-        guard currentIndex + 1 < matchGroups.count else {
-            return generateNext()
-        }
-
-        return matchGroups[currentIndex + 1]
-    }
-
-    var playerSummary: String {
-        prettyJoinStrings(players.map(\.name))
-    }
-
-    var typeSummary: String {
-        switch teamSize {
-        case 2:
-            "Doubles"
-        default:
-            "Singles"
-        }
-    }
-
-    init(id: UUID = UUID(), date: Date = .now, players: [Player] = [], courts: Int = 1, teamSize: Int = 2) {
-        self.id = id
-        self.date = date
-        self.courts = courts
-        self.teamSize = teamSize
-        self.players = players
-        matchGroups = []
-    }
-
-    func player(withId id: Player.ID) -> Player? {
-        players.first(where: { $0.id == id })
-    }
-}
-
-struct Player: Identifiable, Hashable, Codable {
-    let id: UUID
-    var name: String
-
-    init(id: UUID = UUID(), name: String) {
-        self.id = id
-        self.name = name
-    }
-}
-
-struct Match: Identifiable, Hashable, Codable {
-    let id: UUID
-    let court: Int
-    let teamA: Set<UUID>
-    let teamB: Set<UUID>
-
-    init(id: UUID = UUID(), court: Int, teamA: Set<UUID>, teamB: Set<UUID>) {
-        self.id = id
-        self.court = court
-        self.teamA = teamA
-        self.teamB = teamB
-    }
-
-    func teamAPlayers(from sessionPlayers: [Player]) -> [Player] {
-        teamA
-            .map { id in sessionPlayers.first(where: { $0.id == id }) ?? Player(id: id, name: "Unknown") }
-            .sorted { $0.name < $1.name }
-    }
-
-    func teamBPlayers(from sessionPlayers: [Player]) -> [Player] {
-        teamB
-            .map { id in sessionPlayers.first(where: { $0.id == id }) ?? Player(id: id, name: "Unknown") }
-            .sorted { $0.name < $1.name }
-    }
 }
 
 private extension ViewModel {

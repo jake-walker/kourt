@@ -5,6 +5,7 @@
 //  Created by Jake Walker on 22/02/2026.
 //
 
+import KourtShared
 #if !os(Android)
     import Playgrounds
 #endif
@@ -39,8 +40,8 @@ extension Session {
             players: [.init(name: "A"), .init(name: "B"), .init(name: "C"), .init(name: "D")],
         )
 
-        for i in 0 ..< 5 {
-            session.matchGroups.append(session.generateNext())
+        for _ in 0 ..< 5 {
+            try session.matchGroups.append(session.generateNext())
         }
 
         print(session.shareText)

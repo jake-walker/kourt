@@ -21,7 +21,6 @@ let package = Package(
             name: "Kourt",
             dependencies: [
                 .product(name: "SkipFuseUI", package: "skip-fuse-ui"),
-                .product(name: "Algorithms", package: "swift-algorithms"),
                 "KourtShared",
             ], resources: [.process("Resources")],
             plugins: [
@@ -29,6 +28,8 @@ let package = Package(
                 .plugin(name: "LicensesPlugin", package: "LicensesPlugin"),
             ],
         ),
-        .target(name: "KourtShared", dependencies: []),
+        .target(name: "KourtShared", dependencies: [
+            .product(name: "Algorithms", package: "swift-algorithms"),
+        ]),
     ],
 )

@@ -5,6 +5,7 @@
 //  Created by Jake Walker on 19/02/2026.
 //
 
+import KourtShared
 import SwiftUI
 
 struct CreateSessionView: View {

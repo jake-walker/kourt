@@ -1,4 +1,4 @@
-#if !os(Android)
+#if !os(Android) && !os(macOS)
     import ActivityKit
     import Foundation
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-func prettyJoinStrings(_ strings: [String]) -> String {
+public func prettyJoinStrings(_ strings: [String]) -> String {
     var stringsCopy = strings
     switch stringsCopy.count {
     case 0:
@@ -20,6 +20,6 @@ func prettyJoinStrings(_ strings: [String]) -> String {
     }
 }
 
-func inflect(_ count: Int, singular: String, plural: String) -> String {
+public func inflect(_ count: Int, singular: String, plural: String) -> String {
     count == 1 ? "\(count) \(singular)" : "\(count) \(plural)"
 }

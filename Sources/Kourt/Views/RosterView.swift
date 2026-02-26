@@ -6,6 +6,7 @@
 //
 
 import Algorithms
+import KourtShared
 import SwiftUI
 
 struct RosterView: View {

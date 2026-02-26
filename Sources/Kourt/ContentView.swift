@@ -1,6 +1,7 @@
 // Licensed under the GNU General Public License v3.0 or later
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import KourtShared
 import SwiftUI
 
 enum HomeTab: String, CaseIterable, Identifiable {

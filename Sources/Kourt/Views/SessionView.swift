@@ -5,6 +5,7 @@
 //  Created by Jake Walker on 19/02/2026.
 //
 
+import KourtShared
 import SwiftUI
 
 struct PlayerListView: View {
@@ -159,7 +160,7 @@ struct SessionView: View {
             return
         }
 
-        guard let nextMatches = viewModel.currentSession?.generateNext() else {
+        guard let nextMatches = try? viewModel.currentSession?.generateNext() else {
             return
         }
 
@@ -234,7 +235,7 @@ struct SessionView: View {
             }
             .onAppear {
                 if session.matchGroups.isEmpty {
-                    guard let nextMatches = viewModel.currentSession?.generateNext() else {
+                    guard let nextMatches = try? viewModel.currentSession?.generateNext() else {
                         return
                     }
 
