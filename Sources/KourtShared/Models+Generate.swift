@@ -41,9 +41,14 @@ extension Session {
     }
 
     private func getNextPlayer(excluding: Set<UUID> = []) throws -> UUID {
-        let candidates =
+        var candidates =
             playerCounter
                 .filter { !excluding.contains($0.key) }
+
+        // add random values for tie-breaking
+        for (k, v) in candidates {
+            candidates[k] = (v * 100) + Int.random(in: 0 ..< 100)
+        }
 
         let sorted = candidates.sorted { $0.value < $1.value }
             .map(\.key)
@@ -62,10 +67,14 @@ extension Session {
         weight += combo.map { self.playerCounter[$0, default: 0] }
             .reduce(0, +)
 
+        // add a random number to tie-break
+        weight *= 100
+        weight += Int.random(in: 0 ..< 100)
+
         return weight
     }
 
-    private func getNextCombo(for player: UUID, excluding: Set<UUID> = [])
+    private func getNextCombo(for player: UUID, excluding: Set<UUID> = [], teammates: Bool = false)
         throws -> UUID
     {
         var candidates =
@@ -76,7 +85,11 @@ extension Session {
             candidates[key] = getComboWeight(for: key)
         }
 
-        candidates = candidates.filter { !$0.key.contains(player) }
+        if teammates {
+            candidates = candidates.filter { !$0.key.contains(player) }
+        } else {
+            candidates = candidates.filter { $0.key.contains(player) }
+        }
 
         let sorted = candidates.sorted { $0.value < $1.value }
 
@@ -93,9 +106,9 @@ extension Session {
         return filteredCandidate
     }
 
-    private func getNextTeam(excluding: Set<UUID> = []) throws -> Set<UUID> {
+    private func getNextTeam(excluding: Set<UUID> = [], teammates: Bool = false) throws -> Set<UUID> {
         let player1 = try getNextPlayer(excluding: excluding)
-        let player2 = try getNextCombo(for: player1, excluding: excluding)
+        let player2 = try getNextCombo(for: player1, excluding: excluding, teammates: teammates)
 
         return Set([player1, player2])
     }
@@ -112,7 +125,7 @@ extension Session {
     }
 
     private func getNextSinglesMatch(court: Int, excluding: Set<UUID> = []) throws -> Match {
-        let players = try getNextTeam(excluding: excluding)
+        let players = try getNextTeam(excluding: excluding, teammates: true)
 
         let playersArray = Array(players)
 
