@@ -8,15 +8,69 @@
 import KourtShared
 import SwiftUI
 
+enum Team {
+    case teamA, teamB
+
+    var title: String {
+        switch self {
+        case .teamA: "Team A"
+        case .teamB: "Team B"
+        }
+    }
+}
+
 struct PlayerListView: View {
     let players: [Player]
+    let team: Team
+    let compact: Bool
 
     var body: some View {
-        VStack(spacing: 8) {
-            ForEach(players, id: \.id) { player in
-                Text(player.name)
-                    .font(.system(size: 24))
-                    .transition(.opacity)
+        Group {
+            if !compact {
+                HStack {
+                    if team == .teamB {
+                        Text(team.title)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    VStack(spacing: 8) {
+                        ForEach(players, id: \.id) { player in
+                            Text(player.name)
+                                .font(.system(size: 28))
+                                .fontWeight(.semibold)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.5)
+                                .transition(.opacity)
+                                .frame(maxWidth: .infinity, alignment: team == .teamA ? .leading : .trailing)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: team == .teamA ? .leading : .trailing)
+
+                    if team == .teamA {
+                        Text(team.title)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            } else {
+                VStack(spacing: 8) {
+                    Text(team.title)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .padding(.bottom, 4)
+                        .frame(maxWidth: .infinity, alignment: team == .teamA ? .leading : .trailing)
+
+                    ForEach(players, id: \.id) { player in
+                        Text(player.name)
+                            .font(.system(size: 28))
+                            .fontWeight(.semibold)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
+                            .transition(.opacity)
+                            .frame(maxWidth: .infinity, alignment: team == .teamA ? .leading : .trailing)
+                    }
+                }
             }
         }
     }
@@ -25,21 +79,39 @@ struct PlayerListView: View {
 struct MatchView: View {
     let match: Match
     let sessionPlayers: [Player]
+    let compact: Bool
 
     var body: some View {
-        HStack {
-            PlayerListView(players: match.teamAPlayers(from: sessionPlayers))
-                .padding()
-                .frame(maxWidth: .infinity)
+        Group {
+            if !compact {
+                VStack {
+                    PlayerListView(players: match.teamAPlayers(from: sessionPlayers), team: .teamA, compact: compact)
+                        .frame(maxWidth: .infinity)
 
-            Text("vs.")
-                .padding()
-                .nonAndroidContentTransition(.identity)
+                    LabelledDivider(label: "vs.", orientation: .horizontal)
 
-            PlayerListView(players: match.teamBPlayers(from: sessionPlayers))
-                .padding()
-                .frame(maxWidth: .infinity)
+                    PlayerListView(players: match.teamBPlayers(from: sessionPlayers), team: .teamB, compact: compact)
+                        .frame(maxWidth: .infinity)
+                }
+            } else {
+                HStack {
+                    PlayerListView(players: match.teamAPlayers(from: sessionPlayers), team: .teamA, compact: compact)
+                        .frame(maxWidth: .infinity)
+
+                    LabelledDivider(label: "vs.", orientation: .vertical)
+
+                    PlayerListView(players: match.teamBPlayers(from: sessionPlayers), team: .teamB, compact: compact)
+                        .frame(maxWidth: .infinity)
+                }
+            }
         }
+        .padding(28)
+        #if !os(Android)
+            .background(.regularMaterial)
+        #else
+            .background(Color.gray.opacity(0.1))
+        #endif
+            .clipShape(.rect(cornerRadius: 16))
     }
 }
 
@@ -47,23 +119,19 @@ struct CurrentMatch: View {
     @Environment(ViewModel.self) var viewModel: ViewModel
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 18) {
             if let session = viewModel.currentSession,
                let currentGroup = session.currentMatches
             {
-                ForEach(Array(currentGroup.enumerated()), id: \.offset) { index, match in
-                    if index > 0 {
-                        Divider()
-                            .padding([.top, .bottom], 8)
-                    }
-
+                ForEach(Array(currentGroup.enumerated()), id: \.offset) { _, match in
                     if session.courts > 1 {
-                        Text("Court \(match.court + 1):")
-                            .nonAndroidMonospacedDigit()
-                            .font(.headline)
+                        Text("Court \(match.court + 1)")
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.foreground)
                     }
 
-                    MatchView(match: match, sessionPlayers: session.players)
+                    MatchView(match: match, sessionPlayers: session.players, compact: session.courts > 1)
                         .frame(maxWidth: .infinity)
                 }
             }
@@ -143,6 +211,20 @@ struct MatchHistoryView: View {
     }
 }
 
+struct BenchView: View {
+    let bench: [Player]
+
+    var body: some View {
+        Text("**Resting:** \(prettyJoinStrings(bench.map(\.name)))")
+            .multilineTextAlignment(.leading)
+            .foregroundStyle(.secondary)
+            .font(.system(size: 18))
+            .padding(.horizontal)
+            .padding(.bottom, 8)
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
 struct SessionView: View {
     @Environment(ViewModel.self) var viewModel: ViewModel
 
@@ -192,6 +274,10 @@ struct SessionView: View {
                     CurrentMatch()
                         .environment(viewModel)
                         .padding()
+
+                    if !session.currentBench.isEmpty {
+                        BenchView(bench: session.currentBench)
+                    }
                 }
 
                 #if os(Android)

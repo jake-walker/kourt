@@ -41,6 +41,18 @@ public struct Session: Identifiable, Hashable, Codable, Sendable, CustomStringCo
         return matchGroups[currentIndex]
     }
 
+    public var currentBench: [Player] {
+        guard let currentMatches else {
+            return []
+        }
+
+        let matchPlayers = currentMatches
+            .compactMap { $0.teamA.union($0.teamB) }
+            .reduce(into: Set<UUID>()) { $0.formUnion($1) }
+
+        return players.filter { !matchPlayers.contains($0.id) }
+    }
+
     public var nextMatches: [Match] {
         guard currentIndex + 1 < matchGroups.count else {
             return (try? generateNext()) ?? []
