@@ -1,1 +1,1 @@
-app,key,words
+badminton,pickleball,tennis,squash,rotation,fixture,scheduler,group,session,club,matchup,round robin

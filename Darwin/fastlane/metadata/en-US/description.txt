@@ -1,1 +1,9 @@
-A great new app built with Skip!
+Deciding who plays next shouldn't be the hardest part of your session.
+
+For anyone who plays badminton, pickleball, tennis or any court sport with a group of friends, organising a fair rotation is a familiar frustration. Who played last time? Is everyone getting equal court time? Who's sitting out?
+
+Kourt takes care of it. Enter your players, choose your number of courts, and Kourt generates a fair match rotation automatically - so you can spend less time organising and more time playing.
+
+Kourt supports singles and doubles across up to 10 courts at once, with an at-a-glance view of who's playing on each court and a full match history to look back on. Live Activity support means the current matches are visible directly on your lock screen or Always On Display without even unlocking your phone - ideal for keeping track mid-session.
+
+Kourt works completely offline with no account required and no data collected. Everything stays on your device.
