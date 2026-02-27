@@ -1,3 +1,22 @@
+## v2.2.0 (2026-02-27)
+
+### Feat
+
+- update session view
+- animations
+
+### Fix
+
+- **matchmaking**: add randomness for better variation
+- **localization**: remove unused localized strings
+- typo
+- **android**: roster add fab
+- home settings button
+
+### Refactor
+
+- move generator to library
+
 ## v2.1.0 (2026-02-23)
 
 ### Feat
