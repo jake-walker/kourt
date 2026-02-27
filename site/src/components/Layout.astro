@@ -1,0 +1,24 @@
+---
+import "../styles/global.css";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/icon.png" type="image/png" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Kourt</title>
+  </head>
+  <body class="flex flex-col">
+    <main class="flex-1">
+      <slot />
+    </main>
+    <footer class="flex flex-row justify-end w-full p-4 text-secondary gap-4">
+      <a class="hover:underline" href="https://github.com/jake-walker/kourt/">
+        GitHub
+      </a>
+      <a class="hover:underline" href="/privacy-policy">Privacy Policy</a>
+    </footer>
+  </body>
+</html>

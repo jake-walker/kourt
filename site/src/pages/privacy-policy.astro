@@ -1,0 +1,83 @@
+---
+import Layout from "../components/Layout.astro";
+---
+
+<Layout>
+  <div class="container mx-auto">
+    <div class="mb-4">
+      <h1 class="text-3xl font-semibold">Privacy Policy</h1>
+      <p class="text-secondary">Last updated: February 2026</p>
+      <p>
+        <a href="/" class="text-accent hover:underline">← Back to Home</a>
+      </p>
+    </div>
+
+    <p>
+      <b>The short version:</b> Kourt does not collect, transmit, or share any data
+      about you or your use of the app. Everything stays on your device.
+    </p>
+
+    <hr class="mb-4 text-secondary" />
+
+    <h2 class="text-xl font-medium">What data does Kourt collect?</h2>
+    <p>
+      Kourt does not collect any data. The app has no analytics, no crash
+      reporting, no advertising, and no tracking of any kind. It does not
+      contact any external servers.
+    </p>
+
+    <h2 class="text-xl font-medium">Where is my data stored?</h2>
+    <p>
+      Any data you enter into the app - such as player names and session history
+      - is stored locally on your device only. It is never transmitted anywhere.
+    </p>
+
+    <h2 class="text-xl font-medium">
+      Does Kourt share data with third parties?
+    </h2>
+    <p>No. Because no data is collected, no data is shared.</p>
+
+    <h2 class="text-xl font-medium">
+      Does Kourt use cookies or tracking technologies?
+    </h2>
+    <p>No.</p>
+
+    <h2 class="text-xl font-medium">Will this policy change?</h2>
+    <p>
+      If a future version of the app introduces any form of data collection -
+      for example, optional cloud syncing - this policy will be updated and the
+      change will be made clear within the app before it takes effect. You will
+      never be opted into data collection without being informed.
+    </p>
+
+    <h2 class="text-xl font-medium">App Store & Platform Analytics</h2>
+    <p>
+      When you download or use Kourt through the App Store, Google Play, or
+      TestFlight (for beta versions), Apple and Google may collect certain
+      information such as crash reports and download statistics in accordance
+      with their own privacy policies. This data is governed by their respective
+      policies and is separate from anything Kourt itself collects - which, as
+      noted above, is nothing.
+    </p>
+
+    <h2 class="text-xl font-medium">Contact</h2>
+    <p>
+      If you have any questions about this privacy policy, you can get in touch
+      at <a
+        class="underline text-accent hover:no-underline"
+        href="mailto:kourt@jakewalker.xyz">kourt@jakewalker.xyz</a
+      >.
+    </p>
+  </div>
+</Layout>
+
+<style>
+  p {
+    margin-bottom: calc(var(--spacing) * 4);
+  }
+
+  h2 {
+    margin-top: calc(var(--spacing) * 4);
+    margin-bottom: var(--spacing);
+  }
+</style>

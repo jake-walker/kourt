@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SettingsView: View {
     let licenseUrl = URL(string: "https://github.com/jake-walker/kourt/blob/main/LICENSE.txt")!
+    let privacyUrl = URL(string: "https://kourt.jakewalker.xyz/privacy-policy")!
+    let websiteUrl = URL(string: "https://kourt.jakewalker.xyz")!
     let repoUrl = URL(string: "https://github.com/jake-walker/kourt")!
 
     var body: some View {
@@ -19,6 +21,18 @@ struct SettingsView: View {
                 {
                     Text("Version \(version) (\(buildNumber))")
                 }
+
+                Link(destination: websiteUrl) {
+                    Text("Website")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .buttonStyle(.plain)
+
+                Link(destination: privacyUrl) {
+                    Text("Privacy Policy")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .buttonStyle(.plain)
 
                 Link(destination: repoUrl) {
                     Text("View on GitHub")

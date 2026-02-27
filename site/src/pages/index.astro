@@ -1,0 +1,40 @@
+---
+import { Image } from "astro:assets";
+import icon from "../../public/icon.png";
+import Button from "../components/Button.astro";
+import Layout from "../components/Layout.astro";
+---
+
+<Layout>
+  <div
+    class="max-w-96 flex flex-col items-center text-center gap-8 flex-1 h-full m-auto justify-center p-8"
+  >
+    <Image
+      src={icon}
+      alt="Kourt App Icon"
+      loading="eager"
+      quality="max"
+      class="size-32 md:size-64"
+    />
+    <h1 class="font-semibold text-4xl md:text-5xl">Kourt</h1>
+
+    <p class="text-subtle">
+      Kourt is a free and open-source matchmaking app for iOS and Android,
+      designed to handle group rotations for court sports like badminton,
+      tennis, squash, and any other game played on a court.
+    </p>
+    <p class="text-subtle">
+      The app simplifies organizing sessions by generating fair match lists from
+      a group of players. It ensures everyone gets a turn to play and provides a
+      balanced rotation, taking the guesswork and arguments out of "who plays
+      next."
+    </p>
+    <div>
+      <Button
+        href="https://github.com/jake-walker/kourt/"
+        label="View on GitHub"
+        icon="brand-github"
+      />
+    </div>
+  </div>
+</Layout>

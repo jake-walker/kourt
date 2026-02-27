@@ -1,0 +1,19 @@
+---
+import Icon from "@xtreat/astro-iconify";
+
+interface Props {
+  label: string;
+  href: string;
+  icon?: string;
+}
+
+const { label, href, icon } = Astro.props;
+---
+
+<a
+  href={href}
+  class="bg-accent text-black py-4 px-6 rounded-full text-lg hover:bg-accent/60 transition-colors"
+>
+  {icon && <Icon icon={`tabler:${icon}`} class="size-5 inline me-1" />}
+  {label}
+</a>
