@@ -1,5 +1,7 @@
 # Kourt
 
+<a href="https://apple.co/4rLVXYN"><img alt="Download on the App Store" src="https://static.jakewalker.xyz/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg" /></a>
+
 Kourt is a free and open-source matchmaking app for iOS and Android, designed to handle group rotations for court sports like badminton, tennis, squash, and any other game played on a court.
 
 The app simplifies organizing sessions by generating fair match lists from a group of players. It ensures everyone gets a turn to play and provides a balanced rotation, taking the guesswork and arguments out of "who plays next."
@@ -11,6 +13,8 @@ The app simplifies organizing sessions by generating fair match lists from a gro
 ## Android Screenshots
 
 <img alt="Android Screenshot" src="Android/fastlane/metadata/android/en-US/images/phoneScreenshots/1_en-US.png" style="width: 18%" /> <img alt="Android Screenshot" src="Android/fastlane/metadata/android/en-US/images/phoneScreenshots/2_en-US.png" style="width: 18%" /> <img alt="Android Screenshot" src="Android/fastlane/metadata/android/en-US/images/phoneScreenshots/3_en-US.png" style="width: 18%" /> <img alt="Android Screenshot" src="Android/fastlane/metadata/android/en-US/images/phoneScreenshots/4_en-US.png" style="width: 18%" /> <img alt="Android Screenshot" src="Android/fastlane/metadata/android/en-US/images/phoneScreenshots/5_en-US.png" style="width: 18%" />
+
+## TestFlight
 
 ## Development
 
