@@ -158,4 +158,32 @@ struct GeneratorFairnessTest {
         #expect(low > 0, "Each player should have played against everyone at least once")
         #expect((high - low) <= Self.playerOpponentCountTolerance)
     }
+
+    @Test("Same match is not generated twice in a row")
+    func repeatedMatch() throws {
+        var session = SampleData.minimalDoublesSession
+
+        #expect(session.courts == 1)
+        #expect(session.players.count == 4)
+        #expect(session.teamSize == 2)
+
+        try session.matchGroups.append(session.generateNext())
+
+        for _ in 0 ..< 29 {
+            let previousMatch = try #require(session.matchGroups.last?.first)
+            let nextMatches = try session.generateNext()
+            let nextMatch = try #require(nextMatches.first)
+
+            #expect(
+                // check exactly the same team
+                !(nextMatch.teamA.elementsEqual(previousMatch.teamA)
+                    && nextMatch.teamB.elementsEqual(previousMatch.teamB))
+                    // check swapped teams
+                    || !(nextMatch.teamA.elementsEqual(previousMatch.teamB)
+                        && nextMatch.teamB.elementsEqual(previousMatch.teamA)),
+            )
+
+            session.matchGroups.append(nextMatches)
+        }
+    }
 }
