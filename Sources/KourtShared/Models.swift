@@ -53,9 +53,9 @@ public struct Session: Identifiable, Hashable, Codable, Sendable, CustomStringCo
         return players.filter { !matchPlayers.contains($0.id) }
     }
 
-    public var nextMatches: [Match] {
+    public var nextMatches: [Match]? {
         guard currentIndex + 1 < matchGroups.count else {
-            return (try? generateNext()) ?? []
+            return nil
         }
 
         return matchGroups[currentIndex + 1]

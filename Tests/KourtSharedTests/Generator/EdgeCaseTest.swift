@@ -5,7 +5,7 @@
 //  Created by Jake Walker on 26/02/2026.
 //
 
-import KourtShared
+@testable import KourtShared
 import Testing
 
 struct GeneratorEdgeCaseTest {

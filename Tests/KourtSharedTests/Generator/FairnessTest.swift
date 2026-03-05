@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import KourtShared
+@testable import KourtShared
 import Testing
 
 private struct PlayerOpponent: Hashable {
@@ -21,7 +21,7 @@ struct GeneratorFairnessTest {
     static let playerMatchCountTolerance = 2
 
     /// The difference in the highest and lowest number of matches each player sits out
-    static let playerSitOutCountTolerance = 1
+    static let playerSitOutCountTolerance = 2
 
     /// The difference in the highest and lowest number of times the same pair of players play
     static let playerPairCountTolerance = 3

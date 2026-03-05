@@ -32,7 +32,7 @@
                 groupIndex: session.currentIndex,
                 currentMatchGroup: (session.currentMatches ?? [])
                     .map { Self.convertMatch($0, players: session.players) },
-                nextMatchGroup: session.nextMatches
+                nextMatchGroup: (session.nextMatches ?? [])
                     .map { Self.convertMatch($0, players: session.players) },
             )
         }

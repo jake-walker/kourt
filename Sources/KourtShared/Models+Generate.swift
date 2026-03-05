@@ -135,7 +135,7 @@ extension Session {
         )
     }
 
-    public func generateNext() throws -> [Match] {
+    func generateNext() throws -> [Match] {
         var matches: [Match] = []
         var usedPlayers: Set<UUID> = []
 
@@ -152,5 +152,36 @@ extension Session {
         }
 
         return matches
+    }
+
+    // MARK: - Navigation
+
+    public mutating func advance(by steps: Int = 1) {
+        let targetIndex = currentIndex + steps
+
+        // generate groups ahead until we have at least one beyond the target
+        while matchGroups.count <= targetIndex + 1 {
+            if let next = try? generateNext() {
+                matchGroups.append(next)
+            } else {
+                break
+            }
+        }
+
+        currentIndex = min(targetIndex, matchGroups.count - 1)
+    }
+
+    public mutating func goBack(by steps: Int = 1) {
+        currentIndex = max(0, currentIndex - steps)
+    }
+
+    public mutating func ensureReady() {
+        while matchGroups.count < 2 {
+            if let next = try? generateNext() {
+                matchGroups.append(next)
+            } else {
+                break
+            }
+        }
     }
 }

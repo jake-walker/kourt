@@ -43,18 +43,6 @@ import SwiftUI
     func removeSession(id: Session.ID) {
         sessions.removeAll { $0.id == id }
     }
-
-//    func isUpdated(_ item: Item) -> Bool {
-//        item != items.first { i in
-//            i.id == item.id
-//        }
-//    }
-//
-//    func save(item: Item) {
-//        items = items.map { i in
-//            i.id == item.id ? item : i
-//        }
-//    }
 }
 
 private extension ViewModel {

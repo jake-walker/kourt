@@ -231,24 +231,8 @@ struct SessionView: View {
     @State var showingHistory = false
 
     private func nextMatch() {
-        guard let currentSession = viewModel.currentSession else {
-            return
-        }
-
-        if currentSession.currentIndex < currentSession.matchGroups.count - 1 {
-            withAnimation {
-                viewModel.currentSession?.currentIndex += 1
-            }
-            return
-        }
-
-        guard let nextMatches = try? viewModel.currentSession?.generateNext() else {
-            return
-        }
-
         withAnimation {
-            viewModel.currentSession?.matchGroups.append(nextMatches)
-            viewModel.currentSession?.currentIndex += 1
+            viewModel.currentSession?.advance()
         }
     }
 
@@ -320,13 +304,7 @@ struct SessionView: View {
                 }
             }
             .onAppear {
-                if session.matchGroups.isEmpty {
-                    guard let nextMatches = try? viewModel.currentSession?.generateNext() else {
-                        return
-                    }
-
-                    viewModel.currentSession?.matchGroups.append(nextMatches)
-                }
+                viewModel.currentSession?.ensureReady()
 
                 #if !os(Android)
                     Task {
