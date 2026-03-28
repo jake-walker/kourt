@@ -7,6 +7,18 @@
 
 import Foundation
 
+public enum Team: String, Codable, Sendable, Hashable, CaseIterable {
+    case teamA
+    case teamB
+
+    public var title: String {
+        switch self {
+        case .teamA: "Team A"
+        case .teamB: "Team B"
+        }
+    }
+}
+
 public struct Session: Identifiable, Hashable, Codable, Sendable, CustomStringConvertible {
     public let id: UUID
     public var date: Date
@@ -103,6 +115,17 @@ public struct Match: Identifiable, Hashable, Codable, Sendable {
     public let court: Int
     public let teamA: Set<UUID>
     public let teamB: Set<UUID>
+    public var winner: Team? = nil
+
+    public var winningTeam: Set<UUID>? {
+        guard let winner else { return nil }
+        return winner == .teamA ? teamA : teamB
+    }
+
+    public var losingTeam: Set<UUID>? {
+        guard let winner else { return nil }
+        return winner == .teamA ? teamB : teamA
+    }
 
     public init(id: UUID = UUID(), court: Int, teamA: Set<UUID>, teamB: Set<UUID>) {
         self.id = id
@@ -111,14 +134,8 @@ public struct Match: Identifiable, Hashable, Codable, Sendable {
         self.teamB = teamB
     }
 
-    public func teamAPlayers(from sessionPlayers: [Player]) -> [Player] {
-        teamA
-            .map { id in sessionPlayers.first(where: { $0.id == id }) ?? Player(id: id, name: "Unknown") }
-            .sorted { $0.name < $1.name }
-    }
-
-    public func teamBPlayers(from sessionPlayers: [Player]) -> [Player] {
-        teamB
+    public func players(in team: Team, from sessionPlayers: [Player]) -> [Player] {
+        (team == .teamA ? teamA : teamB)
             .map { id in sessionPlayers.first(where: { $0.id == id }) ?? Player(id: id, name: "Unknown") }
             .sorted { $0.name < $1.name }
     }

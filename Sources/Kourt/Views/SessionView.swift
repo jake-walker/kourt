@@ -8,20 +8,10 @@
 import KourtShared
 import SwiftUI
 
-enum Team {
-    case teamA, teamB
-
-    var title: String {
-        switch self {
-        case .teamA: "Team A"
-        case .teamB: "Team B"
-        }
-    }
-}
-
 struct PlayerListView: View {
     let players: [Player]
     let team: Team
+    let winner: Bool
     let compact: Bool
 
     var body: some View {
@@ -32,6 +22,11 @@ struct PlayerListView: View {
                         Text(team.title)
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
+
+                        if winner {
+                            Image(systemName: "trophy.fill")
+                                .foregroundStyle(.orange)
+                        }
                     }
 
                     VStack(spacing: 8) {
@@ -48,6 +43,11 @@ struct PlayerListView: View {
                     .frame(maxWidth: .infinity, alignment: team == .teamA ? .leading : .trailing)
 
                     if team == .teamA {
+                        if winner {
+                            Image(systemName: "trophy.fill")
+                                .foregroundStyle(.orange)
+                        }
+
                         Text(team.title)
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
@@ -55,11 +55,25 @@ struct PlayerListView: View {
                 }
             } else {
                 VStack(spacing: 8) {
-                    Text(team.title)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .padding(.bottom, 4)
-                        .frame(maxWidth: .infinity, alignment: team == .teamA ? .leading : .trailing)
+                    HStack(alignment: .top) {
+                        if team == .teamB, winner {
+                            Image(systemName: "trophy.fill")
+                                .font(.subheadline)
+                                .foregroundStyle(.orange)
+                        }
+
+                        Text(team.title)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                            .padding(.bottom, 4)
+
+                        if team == .teamA, winner {
+                            Image(systemName: "trophy.fill")
+                                .font(.subheadline)
+                                .foregroundStyle(.orange)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: team == .teamA ? .leading : .trailing)
 
                     ForEach(players, id: \.id) { player in
                         Text(player.name)
@@ -80,38 +94,77 @@ struct MatchView: View {
     let match: Match
     let sessionPlayers: [Player]
     let compact: Bool
+    var onWinnerSet: (Team?) -> Void
+
+    @ViewBuilder
+    var menuContent: some View {
+        Button("Team A Won", systemImage: "trophy") {
+            withAnimation {
+                onWinnerSet(.teamA)
+            }
+        }
+        Button("Team B Won", systemImage: "trophy") {
+            withAnimation {
+                onWinnerSet(.teamB)
+            }
+        }
+        if match.winner != nil {
+            Divider()
+            Button("Remove Winner", systemImage: "xmark", role: .destructive) {
+                withAnimation {
+                    onWinnerSet(nil)
+                }
+            }
+        }
+    }
 
     var body: some View {
-        Group {
+        VStack(alignment: .trailing) {
             if !compact {
                 VStack {
-                    PlayerListView(players: match.teamAPlayers(from: sessionPlayers), team: .teamA, compact: compact)
+                    PlayerListView(players: match.players(in: .teamA, from: sessionPlayers), team: .teamA, winner: match.winner == .teamA, compact: compact)
                         .frame(maxWidth: .infinity)
 
                     LabelledDivider(label: "vs.", orientation: .horizontal)
 
-                    PlayerListView(players: match.teamBPlayers(from: sessionPlayers), team: .teamB, compact: compact)
+                    PlayerListView(players: match.players(in: .teamB, from: sessionPlayers), team: .teamB, winner: match.winner == .teamB, compact: compact)
                         .frame(maxWidth: .infinity)
                 }
             } else {
                 HStack {
-                    PlayerListView(players: match.teamAPlayers(from: sessionPlayers), team: .teamA, compact: compact)
+                    PlayerListView(players: match.players(in: .teamA, from: sessionPlayers), team: .teamA, winner: match.winner == .teamA, compact: compact)
                         .frame(maxWidth: .infinity)
 
                     LabelledDivider(label: "vs.", orientation: .vertical)
 
-                    PlayerListView(players: match.teamBPlayers(from: sessionPlayers), team: .teamB, compact: compact)
+                    PlayerListView(players: match.players(in: .teamB, from: sessionPlayers), team: .teamB, winner: match.winner == .teamB, compact: compact)
                         .frame(maxWidth: .infinity)
                 }
             }
         }
         .padding(28)
+        .overlay(alignment: .topTrailing) {
+            if !compact {
+                Menu {
+                    menuContent
+                } label: {
+                    Label("Match Options", systemImage: "ellipsis")
+                        .labelStyle(.iconOnly)
+                        .padding(12)
+                }
+                .padding(16)
+            }
+        }
+        .contentShape(.rect)
+        .contextMenu {
+            menuContent
+        }
         #if !os(Android)
-            .background(.regularMaterial)
+        .background(.regularMaterial)
         #else
-            .background(Color.gray.opacity(0.1))
+        .background(Color.gray.opacity(0.1))
         #endif
-            .clipShape(.rect(cornerRadius: 16))
+        .clipShape(.rect(cornerRadius: 16))
     }
 }
 
@@ -123,7 +176,7 @@ struct CurrentMatch: View {
             if let session = viewModel.currentSession,
                let currentGroup = session.currentMatches
             {
-                ForEach(Array(currentGroup.enumerated()), id: \.offset) { _, match in
+                ForEach(Array(currentGroup.enumerated()), id: \.offset) { index, match in
                     if session.courts > 1 {
                         Text("Court \(match.court + 1)")
                             .font(.subheadline)
@@ -131,8 +184,10 @@ struct CurrentMatch: View {
                             .foregroundStyle(.foreground)
                     }
 
-                    MatchView(match: match, sessionPlayers: session.players, compact: session.courts > 1)
-                        .frame(maxWidth: .infinity)
+                    MatchView(match: match, sessionPlayers: session.players, compact: session.courts > 1) { winner in
+                        viewModel.currentSession?.matchGroups[session.currentIndex][index].winner = winner
+                    }
+                    .frame(maxWidth: .infinity)
                 }
             }
         }
@@ -147,8 +202,8 @@ struct MatchItem: View {
     let isCurrent: Bool
 
     private var title: String {
-        let teamA = match.teamAPlayers(from: sessionPlayers).map(\.name)
-        let teamB = match.teamBPlayers(from: sessionPlayers).map(\.name)
+        let teamA = match.players(in: .teamA, from: sessionPlayers).map(\.name)
+        let teamB = match.players(in: .teamB, from: sessionPlayers).map(\.name)
 
         return "\(teamA.joined(separator: " and ")) vs. \(teamB.joined(separator: " and "))"
     }
@@ -176,6 +231,10 @@ struct MatchItem: View {
 
                     if showCourt {
                         Text("Court \(match.court + 1)")
+                    }
+
+                    if let winner = match.winner {
+                        Text("\(winner.title) Won")
                     }
                 }
                 .font(.subheadline)
@@ -255,6 +314,7 @@ struct SessionView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .multilineTextAlignment(.leading)
                         .padding(.horizontal)
+
                     CurrentMatch()
                         .environment(viewModel)
                         .padding()
@@ -293,14 +353,14 @@ struct SessionView: View {
                     .accessibilityLabel("History")
                 }
 
-                #if !os(Android)
-                    if #available(iOS 26.0, *) {
-                        ToolbarSpacer(.flexible, placement: .primaryAction)
-                    }
-                #endif
-
-                ToolbarItem(placement: .primaryAction) {
+                ToolbarItem(placement: .secondaryAction) {
                     ShareLink(item: session.shareText)
+                }
+
+                ToolbarItem(placement: .secondaryAction) {
+                    NavigationLink(destination: SessionAnalyticsView(session: session)) {
+                        Label("Session Analytics", systemImage: "chart.bar")
+                    }
                 }
             }
             .onAppear {

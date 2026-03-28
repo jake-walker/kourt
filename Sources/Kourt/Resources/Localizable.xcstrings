@@ -23,7 +23,41 @@
     "%@ with no players" : {
 
     },
+    "%@ Won" : {
+
+    },
+    "%@%%" : {
+
+    },
     "%lld" : {
+
+    },
+    "%lld." : {
+
+    },
+    "%lldP" : {
+
+    },
+    "%lldW / %lldP" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lldW / %2$lldP"
+          }
+        }
+      }
+    },
+    "+%lld" : {
+
+    },
+    "🥇" : {
+
+    },
+    "🥈" : {
+
+    },
+    "🥉" : {
 
     },
     "About" : {
@@ -65,6 +99,9 @@
 
     },
     "Add Session" : {
+
+    },
+    "Analytics" : {
 
     },
     "At least %@ are needed for this session." : {
@@ -132,6 +169,12 @@
     "Match History" : {
 
     },
+    "Match Options" : {
+
+    },
+    "Matches" : {
+
+    },
     "My Players" : {
 
     },
@@ -173,6 +216,18 @@
     "No session" : {
 
     },
+    "No wins recorded yet" : {
+
+    },
+    "Pair" : {
+
+    },
+    "Pairs" : {
+
+    },
+    "Player" : {
+
+    },
     "Player %lld Name" : {
 
     },
@@ -189,6 +244,12 @@
 
     },
     "Recent Players" : {
+
+    },
+    "Remove Winner" : {
+
+    },
+    "Session Analytics" : {
 
     },
     "Sessions" : {
@@ -224,6 +285,12 @@
       }
     },
     "Singles" : {
+
+    },
+    "Team A Won" : {
+
+    },
+    "Team B Won" : {
 
     },
     "Team Size" : {
@@ -274,6 +341,12 @@
 
     },
     "Website" : {
+
+    },
+    "Win Rate" : {
+
+    },
+    "Wins" : {
 
     }
   },

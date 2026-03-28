@@ -22,8 +22,8 @@
             .init(
                 id: match.id,
                 court: match.court,
-                teamA: match.teamAPlayers(from: players).map(\.name),
-                teamB: match.teamBPlayers(from: players).map(\.name),
+                teamA: match.players(in: .teamA, from: players).map(\.name),
+                teamB: match.players(in: .teamB, from: players).map(\.name),
             )
         }
 

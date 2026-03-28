@@ -24,8 +24,8 @@ extension Session {
             }
 
             for (i, match) in matches.enumerated() {
-                let teamA = match.teamAPlayers(from: players).map(\.name).joined(separator: " & ")
-                let teamB = match.teamBPlayers(from: players).map(\.name).joined(separator: " & ")
+                let teamA = match.players(in: .teamA, from: players).map(\.name).joined(separator: " & ")
+                let teamB = match.players(in: .teamB, from: players).map(\.name).joined(separator: " & ")
                 lines.append("\(i + 1). \(teamA) vs \(teamB)")
             }
         }
