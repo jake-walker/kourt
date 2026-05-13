@@ -1,0 +1,20 @@
+AGENTS.md
+  s_89c7dc137d4257::t_c6424c10b6282e 11-12,37
+  s_89c7dc137d4257::t_e24334fbf030e4 1-10,13-36,38-41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "1bdbc38014f50ca001171c397854210875b01256",
+  "prompts": {},
+  "sessions": {
+    "s_89c7dc137d4257": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e22cb-7b8c-7ad1-a5de-e75d62d9aa3c",
+        "model": "gpt-5.5"
+      },
+      "human_author": "Jake Walker <hi@jakew.me>"
+    }
+  }
+}
