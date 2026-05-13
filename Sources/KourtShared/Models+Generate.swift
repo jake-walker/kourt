@@ -15,6 +15,20 @@ public enum GeneratorError: Error {
     case invalidPlayerCombination(for: Player.ID, combination: Set<Player.ID>)
 }
 
+private struct CandidateMatch {
+    let teamA: Set<UUID>
+    let teamB: Set<UUID>
+    let score: Int
+}
+
+private struct MatchSignature: Hashable {
+    let teams: Set<Set<UUID>>
+
+    init(teamA: Set<UUID>, teamB: Set<UUID>) {
+        teams = [teamA, teamB]
+    }
+}
+
 extension Session {
     var playerCounter: [UUID: Int] {
         let initialCounter = players.reduce(into: [UUID: Int]()) { counter, player in
@@ -40,99 +54,131 @@ extension Session {
         }
     }
 
-    private func getNextPlayer(excluding: Set<UUID> = []) throws -> UUID {
-        var candidates =
-            playerCounter
-                .filter { !excluding.contains($0.key) }
+    var opponentCounter: [Set<UUID>: Int] {
+        let playerIds = players.map(\.id)
+        let initialOpponents = playerIds.combinations(ofCount: 2)
+            .reduce(into: [Set<UUID>: Int]()) { counter, pair in
+                counter[Set(pair)] = 0
+            }
 
-        // add random values for tie-breaking
-        for (k, v) in candidates {
-            candidates[k] = (v * 100) + Int.random(in: 0 ..< 100)
+        return matches.reduce(into: initialOpponents) { counter, match in
+            for playerA in match.teamA {
+                for playerB in match.teamB {
+                    counter[[playerA, playerB], default: 0] += 1
+                }
+            }
+        }
+    }
+
+    private var matchCounter: [MatchSignature: Int] {
+        matches.reduce(into: [MatchSignature: Int]()) { counter, match in
+            counter[MatchSignature(teamA: match.teamA, teamB: match.teamB), default: 0] += 1
+        }
+    }
+
+    private var previousMatchSignatures: Set<MatchSignature> {
+        guard let previousGroup = matchGroups.last else {
+            return []
         }
 
-        let sorted = candidates.sorted { $0.value < $1.value }
-            .map(\.key)
+        return Set(previousGroup.map { MatchSignature(teamA: $0.teamA, teamB: $0.teamB) })
+    }
 
-        guard let result = sorted.first else {
+    private var previousTeamSignatures: Set<Set<UUID>> {
+        guard let previousGroup = matchGroups.last else {
+            return []
+        }
+
+        return previousGroup.reduce(into: Set<Set<UUID>>()) { teams, match in
+            teams.insert(match.teamA)
+            teams.insert(match.teamB)
+        }
+    }
+
+    private func candidateScore(teamA: Set<UUID>, teamB: Set<UUID>) -> Int {
+        let matchPlayers = teamA.union(teamB)
+        let signature = MatchSignature(teamA: teamA, teamB: teamB)
+
+        var score = 0
+
+        // Keep players' total games balanced. This is deliberately the largest normal weight
+        // so sit-outs are corrected before optimizing partners and opponents.
+        score += matchPlayers
+            .map { playerCounter[$0, default: 0] }
+            .reduce(0, +) * 10000
+
+        score += playerComboCounter[teamA, default: 0] * 1000
+        score += playerComboCounter[teamB, default: 0] * 1000
+
+        for playerA in teamA {
+            for playerB in teamB {
+                score += opponentCounter[[playerA, playerB], default: 0] * 250
+            }
+        }
+
+        score += matchCounter[signature, default: 0] * 100_000
+
+        if previousTeamSignatures.contains(teamA) {
+            score += 1_000_000
+        }
+
+        if previousTeamSignatures.contains(teamB) {
+            score += 1_000_000
+        }
+
+        if previousMatchSignatures.contains(signature) {
+            score += 1_000_000
+        }
+
+        return (score * 100) + Int.random(in: 0 ..< 100)
+    }
+
+    private func getCandidateMatches(excluding: Set<UUID> = []) -> [CandidateMatch] {
+        let availablePlayers = players.map(\.id).filter { !excluding.contains($0) }
+
+        if teamSize == 1 {
+            return availablePlayers.combinations(ofCount: 2).map { combo in
+                let teamA = Set(arrayLiteral: combo[0])
+                let teamB = Set(arrayLiteral: combo[1])
+
+                return CandidateMatch(
+                    teamA: teamA,
+                    teamB: teamB,
+                    score: candidateScore(teamA: teamA, teamB: teamB),
+                )
+            }
+        }
+
+        let teams = availablePlayers.combinations(ofCount: teamSize).map(Set.init)
+        var candidates: [CandidateMatch] = []
+
+        for teamAIndex in teams.indices {
+            let teamA = teams[teamAIndex]
+
+            for teamB in teams[(teamAIndex + 1)...] {
+                if !teamA.isDisjoint(with: teamB) {
+                    continue
+                }
+
+                candidates.append(
+                    CandidateMatch(
+                        teamA: teamA,
+                        teamB: teamB,
+                        score: candidateScore(teamA: teamA, teamB: teamB),
+                    ),
+                )
+            }
+        }
+
+        return candidates
+    }
+
+    private func getNextMatch(court: Int, excluding: Set<UUID> = []) throws -> Match {
+        guard let candidate = getCandidateMatches(excluding: excluding).min(by: { $0.score < $1.score }) else {
             throw GeneratorError.noNextPlayersFound(excluding: excluding)
         }
 
-        return result
-    }
-
-    private func getComboWeight(for combo: Set<UUID>) -> Int {
-        var weight = 0
-
-        weight += playerComboCounter[combo, default: 0]
-        weight += combo.map { self.playerCounter[$0, default: 0] }
-            .reduce(0, +)
-
-        // add a random number to tie-break
-        weight *= 100
-        weight += Int.random(in: 0 ..< 100)
-
-        return weight
-    }
-
-    private func getNextCombo(for player: UUID, excluding: Set<UUID> = [], teammates: Bool = false)
-        throws -> UUID
-    {
-        var candidates =
-            playerComboCounter
-                .filter { $0.key.isDisjoint(with: excluding) }
-
-        for key in candidates.keys {
-            candidates[key] = getComboWeight(for: key)
-        }
-
-        if teammates {
-            candidates = candidates.filter { !$0.key.contains(player) }
-        } else {
-            candidates = candidates.filter { $0.key.contains(player) }
-        }
-
-        let sorted = candidates.sorted { $0.value < $1.value }
-
-        guard let firstCandidate = sorted.first else {
-            throw GeneratorError.noPlayerCombinationFound(for: player, excluding: excluding)
-        }
-
-        guard let filteredCandidate = firstCandidate.key.filter({ $0 != player }).first else {
-            throw GeneratorError.invalidPlayerCombination(
-                for: player, combination: firstCandidate.key,
-            )
-        }
-
-        return filteredCandidate
-    }
-
-    private func getNextTeam(excluding: Set<UUID> = [], teammates: Bool = false) throws -> Set<UUID> {
-        let player1 = try getNextPlayer(excluding: excluding)
-        let player2 = try getNextCombo(for: player1, excluding: excluding, teammates: teammates)
-
-        return Set([player1, player2])
-    }
-
-    private func getNextDoublesMatch(court: Int, excluding: Set<UUID> = []) throws -> Match {
-        let teamA = try getNextTeam(excluding: excluding)
-        let teamB = try getNextTeam(excluding: excluding.union(teamA))
-
-        if !teamA.isDisjoint(with: teamB) {
-            throw GeneratorError.matchHasDuplicatePlayers(teamA: teamA, teamB: teamB)
-        }
-
-        return Match(court: court, teamA: teamA, teamB: teamB)
-    }
-
-    private func getNextSinglesMatch(court: Int, excluding: Set<UUID> = []) throws -> Match {
-        let players = try getNextTeam(excluding: excluding, teammates: true)
-
-        let playersArray = Array(players)
-
-        return Match(
-            court: court, teamA: Set(arrayLiteral: playersArray[0]),
-            teamB: Set(arrayLiteral: playersArray[1]),
-        )
+        return Match(court: court, teamA: candidate.teamA, teamB: candidate.teamB)
     }
 
     func generateNext() throws -> [Match] {
@@ -140,11 +186,7 @@ extension Session {
         var usedPlayers: Set<UUID> = []
 
         for i in 0 ..< courts {
-            let match =
-                try
-                    (teamSize == 1
-                        ? getNextSinglesMatch(court: i, excluding: usedPlayers)
-                        : getNextDoublesMatch(court: i, excluding: usedPlayers))
+            let match = try getNextMatch(court: i, excluding: usedPlayers)
 
             usedPlayers.formUnion(match.teamA)
             usedPlayers.formUnion(match.teamB)

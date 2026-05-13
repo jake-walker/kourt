@@ -176,12 +176,36 @@ struct GeneratorFairnessTest {
 
             #expect(
                 // check exactly the same team
-                !(nextMatch.teamA.elementsEqual(previousMatch.teamA)
-                    && nextMatch.teamB.elementsEqual(previousMatch.teamB))
+                !(nextMatch.teamA == previousMatch.teamA
+                    && nextMatch.teamB == previousMatch.teamB)
                     // check swapped teams
-                    || !(nextMatch.teamA.elementsEqual(previousMatch.teamB)
-                        && nextMatch.teamB.elementsEqual(previousMatch.teamA)),
+                    && !(nextMatch.teamA == previousMatch.teamB
+                        && nextMatch.teamB == previousMatch.teamA),
             )
+
+            session.matchGroups.append(nextMatches)
+        }
+    }
+
+    @Test("Same doubles pair is not generated twice in a row")
+    func repeatedDoublesPair() throws {
+        var session = SampleData.doublesSession
+
+        #expect(session.courts == 1)
+        #expect(session.players.count == 8)
+        #expect(session.teamSize == 2)
+
+        try session.matchGroups.append(session.generateNext())
+
+        for _ in 0 ..< 49 {
+            let previousMatch = try #require(session.matchGroups.last?.first)
+            let previousTeams = Set([previousMatch.teamA, previousMatch.teamB])
+
+            let nextMatches = try session.generateNext()
+            let nextMatch = try #require(nextMatches.first)
+
+            #expect(!previousTeams.contains(nextMatch.teamA))
+            #expect(!previousTeams.contains(nextMatch.teamB))
 
             session.matchGroups.append(nextMatches)
         }
