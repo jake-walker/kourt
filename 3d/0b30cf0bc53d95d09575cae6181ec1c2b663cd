@@ -1,0 +1,41 @@
+Sources/Kourt/Views/SessionView.swift
+  s_89c7dc137d4257::t_266d1393699231 216-292,311
+Sources/KourtShared/Models.swift
+  s_89c7dc137d4257::t_56a20b72d7c360 196-197
+  s_89c7dc137d4257::t_e89dcdb94d835a 19,94,106,130,132,135-137,175-188,190-191,193-195,198-204,216,230,244
+  s_89c7dc137d4257::t_0734c8b53818cc 18,39,43,93,105,111-112,133-134,138-140,209-215,223-229,237-243,245
+  s_89c7dc137d4257::t_4723c673fc0567 126
+  s_89c7dc137d4257::t_57d26aba208fb4 38,40-42,44-45,63,101-102,104,107-110,113-125,127-129,141-174,205-208,217-222,231-236
+  s_89c7dc137d4257::t_a58fd7528c5d61 103,131,189,192
+Sources/KourtShared/Models+Generate.swift
+  s_89c7dc137d4257::t_411bc3588fa613 34,46,58,73,75-76,111,141
+  s_89c7dc137d4257::t_a77af782bcdd67 74
+  s_89c7dc137d4257::t_11ff5e94f6775f 225
+Tests/KourtSharedTests/Generator/RosterChangeTest.swift
+  s_89c7dc137d4257::t_4cdb8d3ece91bd 59,90-104,166-167,172-181,185-187,189,191,193
+  s_89c7dc137d4257::t_43e2fa42d79887 105-112,114-126,128-133,136-142,147-148,153-159,162,164-165,192
+  s_89c7dc137d4257::t_2f1814b2a279cb 134-135,143-146,149-152,160-161,163
+  s_89c7dc137d4257::t_91e623da5835aa 113,127
+  s_89c7dc137d4257::t_9044b8642f8c6a 1-58,60-89,168-171,182-184,188,190,194-195
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "3d0b30cf0bc53d95d09575cae6181ec1c2b663cd",
+  "prompts": {},
+  "humans": {
+    "h_2463f6ed1216b2": {
+      "author": "Jake Walker <hi@jakew.me>"
+    }
+  },
+  "sessions": {
+    "s_89c7dc137d4257": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e22cb-7b8c-7ad1-a5de-e75d62d9aa3c",
+        "model": "gpt-5.5"
+      },
+      "human_author": "Jake Walker <hi@jakew.me>"
+    }
+  }
+}
