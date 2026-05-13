@@ -32,6 +32,9 @@
     "Acknowledgements" : {
 
     },
+    "Active" : {
+
+    },
     "Add" : {
       "comment" : "Button in items list that will cause a new item to be added",
       "localizations" : {
@@ -65,6 +68,9 @@
 
     },
     "Add Session" : {
+
+    },
+    "Adjust Players" : {
 
     },
     "At least %@ are needed for this session." : {
@@ -117,10 +123,19 @@
     "Details" : {
 
     },
+    "Disable" : {
+
+    },
     "Doubles" : {
 
     },
+    "Enable" : {
+
+    },
     "History" : {
+
+    },
+    "Inactive" : {
 
     },
     "Licensed under GNU GPL v3.0" : {
@@ -171,6 +186,9 @@
 
     },
     "No session" : {
+
+    },
+    "Ok" : {
 
     },
     "Player %lld Name" : {
@@ -230,6 +248,9 @@
 
     },
     "This app is built with the help of the following open source libraries." : {
+
+    },
+    "This will add a new player to the session" : {
 
     },
     "Version %@ (%@)" : {

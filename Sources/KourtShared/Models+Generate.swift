@@ -31,7 +31,7 @@ private struct MatchSignature: Hashable {
 
 extension Session {
     var playerCounter: [UUID: Int] {
-        let initialCounter = players.reduce(into: [UUID: Int]()) { counter, player in
+        let initialCounter = activePlayers.reduce(into: [UUID: Int]()) { counter, player in
             counter[player.id] = 0
         }
 
@@ -43,7 +43,7 @@ extension Session {
     }
 
     var playerComboCounter: [Set<UUID>: Int] {
-        let initialCombos = players.map(\.id).combinations(ofCount: teamSize)
+        let initialCombos = activePlayers.map(\.id).combinations(ofCount: teamSize)
             .reduce(into: [Set<UUID>: Int]()) { counter, combo in
                 counter[Set(combo)] = 0
             }
@@ -55,7 +55,7 @@ extension Session {
     }
 
     var opponentCounter: [Set<UUID>: Int] {
-        let playerIds = players.map(\.id)
+        let playerIds = activePlayers.map(\.id)
         let initialOpponents = playerIds.combinations(ofCount: 2)
             .reduce(into: [Set<UUID>: Int]()) { counter, pair in
                 counter[Set(pair)] = 0
@@ -68,6 +68,10 @@ extension Session {
                 }
             }
         }
+    }
+
+    private func adjustedPlayerCount(for playerId: Player.ID) -> Int {
+        playerCounter[playerId, default: 0] + playerMatchCountAdjustments[playerId, default: 0]
     }
 
     private var matchCounter: [MatchSignature: Int] {
@@ -104,7 +108,7 @@ extension Session {
         // Keep players' total games balanced. This is deliberately the largest normal weight
         // so sit-outs are corrected before optimizing partners and opponents.
         score += matchPlayers
-            .map { playerCounter[$0, default: 0] }
+            .map { adjustedPlayerCount(for: $0) }
             .reduce(0, +) * 10000
 
         score += playerComboCounter[teamA, default: 0] * 1000
@@ -134,7 +138,7 @@ extension Session {
     }
 
     private func getCandidateMatches(excluding: Set<UUID> = []) -> [CandidateMatch] {
-        let availablePlayers = players.map(\.id).filter { !excluding.contains($0) }
+        let availablePlayers = activePlayers.map(\.id).filter { !excluding.contains($0) }
 
         if teamSize == 1 {
             return availablePlayers.combinations(ofCount: 2).map { combo in
@@ -218,7 +222,7 @@ extension Session {
     }
 
     public mutating func ensureReady() {
-        while matchGroups.count < 2 {
+        while matchGroups.count <= currentIndex + 1 {
             if let next = try? generateNext() {
                 matchGroups.append(next)
             } else {
