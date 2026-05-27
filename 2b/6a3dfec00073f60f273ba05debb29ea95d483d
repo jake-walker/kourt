@@ -1,0 +1,32 @@
+Sources/Kourt/ViewModel.swift
+  s_380edd0cfdb48d::t_ec14571d6bd9bc 47-69
+  s_380edd0cfdb48d::t_5a51596898548d 71-89
+Sources/Kourt/Components/SwipableCardsView.swift
+  s_380edd0cfdb48d::t_9fdf735530526c 80,106-109
+  s_380edd0cfdb48d::t_ec14571d6bd9bc 9-19,23-36,38-79,81-87,89-100,130-135
+  s_380edd0cfdb48d::t_5491c726c26834 37
+  s_380edd0cfdb48d::t_8a48ac278263b5 88
+Sources/Kourt/Components/MatchCardView.swift
+  s_380edd0cfdb48d::t_ec14571d6bd9bc 1-10,27-112,114-163,165-175,177-186
+  s_380edd0cfdb48d::t_fb9de63df68397 11-12,14,16-26
+  s_380edd0cfdb48d::t_5491c726c26834 113,164,176
+Sources/Kourt/Views/SessionView.swift
+  s_380edd0cfdb48d::t_5a51596898548d 201-205
+  s_380edd0cfdb48d::t_ec14571d6bd9bc 19-29,35-42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "2b6a3dfec00073f60f273ba05debb29ea95d483d",
+  "prompts": {},
+  "sessions": {
+    "s_380edd0cfdb48d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e693e-f319-7a33-b947-b472781c89c6",
+        "model": "gpt-5.5"
+      },
+      "human_author": "Jake Walker <hi@jakew.me>"
+    }
+  }
+}
