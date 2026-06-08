@@ -1,3 +1,17 @@
+## v2.3.0 (2026-06-08)
+
+### Feat
+
+- add and remove players during session
+
+### Fix
+
+- match generation duplicates
+
+### Refactor
+
+- **generator**: add advance and goBack methods
+
 ## v2.2.0 (2026-02-27)
 
 ### Feat
