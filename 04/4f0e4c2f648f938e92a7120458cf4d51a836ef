@@ -1,0 +1,14 @@
+Package.swift
+  h_2463f6ed1216b2 14-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.3",
+  "base_commit_sha": "044f0e4c2f648f938e92a7120458cf4d51a836ef",
+  "prompts": {},
+  "humans": {
+    "h_2463f6ed1216b2": {
+      "author": "Jake Walker <hi@jakew.me>"
+    }
+  }
+}
