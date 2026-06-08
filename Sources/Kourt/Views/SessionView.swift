@@ -211,6 +211,91 @@ struct MatchHistoryView: View {
     }
 }
 
+struct SessionPlayersView: View {
+    @Environment(ViewModel.self) var viewModel: ViewModel
+    let session: Session
+
+    @State var isAdding = false
+    @State var newName = ""
+
+    private func setPlayer(_ playerId: Player.ID, enabled: Bool) {
+        withAnimation {
+            viewModel.currentSession?.setPlayer(withId: playerId, enabled: enabled)
+            viewModel.currentSession?.ensureReady()
+        }
+    }
+
+    private func addPlayer() {
+        let trimmedName = newName.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        if !trimmedName.isEmpty {
+            viewModel.currentSession?.addPlayer(name: trimmedName)
+        }
+
+        newName = ""
+        isAdding = false
+    }
+
+    var body: some View {
+        List {
+            ForEach(session.players) { player in
+                let isActive = !session.disabledPlayerIDs.contains(player.id)
+
+                HStack {
+                    Text(player.name)
+
+                    Spacer()
+
+                    Text(isActive ? "Active" : "Inactive")
+                        .font(.caption)
+                        .fontWeight(.medium)
+                        .foregroundStyle(isActive ? .green : .secondary)
+                }
+                .foregroundStyle(isActive ? .primary : .secondary)
+                #if !os(Android)
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        if isActive {
+                            Button {
+                                setPlayer(player.id, enabled: false)
+                            } label: {
+                                Label("Disable", systemImage: "pause.circle")
+                            }
+                            .tint(.red)
+                        } else {
+                            Button {
+                                setPlayer(player.id, enabled: true)
+                            } label: {
+                                Label("Enable", systemImage: "play.circle")
+                            }
+                            .tint(.green)
+                        }
+                    }
+                #else
+                    .onTapGesture {
+                            setPlayer(player.id, enabled: !isActive)
+                        }
+                #endif
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button("Add Player", systemImage: "plus") {
+                    isAdding.toggle()
+                }
+            }
+        }
+        .alert("Add Player", isPresented: $isAdding) {
+            TextField("Player Name", text: $newName)
+            Button("Ok", action: addPlayer)
+            Button("Cancel", role: .cancel) {
+                isAdding = false
+            }
+        } message: {
+            Text("This will add a new player to the session")
+        }
+    }
+}
+
 struct BenchView: View {
     let bench: [Player]
 
@@ -229,6 +314,7 @@ struct SessionView: View {
     @Environment(ViewModel.self) var viewModel: ViewModel
 
     @State var showingHistory = false
+    @State var showingPlayers = false
 
     private func nextMatch() {
         withAnimation {
@@ -281,6 +367,17 @@ struct SessionView: View {
                     #endif
                 }
             }
+            .sheet(isPresented: $showingPlayers) {
+                NavigationStack {
+                    SessionPlayersView(session: session)
+                        .environment(viewModel)
+                        .navigationTitle("Players")
+                    #if !os(Android)
+                        .presentationDetents([.medium, .large])
+                        .presentationBackgroundInteraction(.enabled)
+                    #endif
+                }
+            }
             .navigationTitle("\(session.typeSummary) Session")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -299,8 +396,15 @@ struct SessionView: View {
                     }
                 #endif
 
-                ToolbarItem(placement: .primaryAction) {
+                ToolbarItem(placement: .secondaryAction) {
                     ShareLink(item: session.shareText)
+                }
+
+                ToolbarItem(placement: .secondaryAction) {
+                    Button("Adjust Players", systemImage: "person") {
+                        showingPlayers.toggle()
+                    }
+                    .accessibilityLabel("Adjust Players")
                 }
             }
             .onAppear {
